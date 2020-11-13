@@ -19,5 +19,16 @@ namespace Task1.Logic
         void DeleteState(string isbn);
         #endregion
 
+        #region Getters
+
+        #endregion
+
+        #region Enumerating
+        IEnumerable<Book> GetAllBooks();
+        IEnumerable<Reader> GetAllReaders();
+        IEnumerable<BookState> GetAllBookStates();
+        IEnumerable<BookEvent> GetAllBookEvents();
+        #endregion
+
     }
 }
