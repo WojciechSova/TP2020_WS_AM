@@ -27,7 +27,7 @@ namespace Task1.Data
         void AddBookState(BookState bookState);
         BookState GetBookState(int id);
         IEnumerable<BookState> GetAllBookState();
-        void UpdateBookState(int id, Book book, bool state);
+        void UpdateBookState(int id, Book book, bool available, DateTime buyingDate);
         void DeleteBookState(BookState bookState);
         #endregion
 
@@ -35,7 +35,7 @@ namespace Task1.Data
         void AddEvent(BookEvent bookEvent);
         BookEvent GetBookEvent(int id);
         IEnumerable<BookEvent> GetAllBookEvent();
-        void UpdateBookEvent(int id, Reader reader, BookState bookState);
+        void UpdateBookEvent(int id, Reader reader, BookState bookState, DateTime dateTime);
         void DeleteBookEvent(BookEvent bookEvent);
         #endregion
     }
