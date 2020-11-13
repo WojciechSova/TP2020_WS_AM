@@ -2,7 +2,7 @@ using System;
 
 namespace Task1.Data
 {
-    class BookState
+    public class BookState
     {
         public Book Book { get; set; }
         public bool Available { get; set; }
