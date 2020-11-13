@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Task1.Data;
 
-namespace Task1
+
+namespace Task1.Data
 {
     public class DataContext
     {

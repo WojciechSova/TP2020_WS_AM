@@ -2,7 +2,7 @@ using System;
 
 namespace Task1.Data
 {
-    abstract class BookEvent
+    public abstract class BookEvent
     {
         public Reader Reader { get; set; }
         public Book Book { get; set; }
