@@ -120,7 +120,7 @@ namespace Task1.Data
             {
                 return DataContext.BookEvents[id];
             }
-            throw new KeyNotFoundException("Event id: " + id + " do not exist");
+            throw new KeyNotFoundException("Event id: " + id + " does not exist");
         }
 
         public BookState GetBookState(int id)
@@ -129,7 +129,7 @@ namespace Task1.Data
             {
                 return DataContext.BookStatesList[id];
             }
-            throw new KeyNotFoundException("State id: " + id + " do not exist");
+            throw new KeyNotFoundException("State id: " + id + " does not exist");
         }
 
         public Reader GetReader(int id)
@@ -138,12 +138,17 @@ namespace Task1.Data
             {
                 return DataContext.ReadersList[id];
             }
-            throw new KeyNotFoundException("Reader id: " + id + " do not exist");
+            throw new KeyNotFoundException("Reader id: " + id + " does not exist");
         }
 
         public void UpdateBook(int id, string isbn, string author, string title, string description)
         {
-            throw new NotImplementedException();
+            if (DataContext.BookSet.ContainsKey(id)
+            {
+                DataContext.BookSet[id] = new Book(isbn, author, title, description);
+                return;
+            }
+            throw new KeyNotFoundException("Boook id: " + id + " does not exist");
         }
 
         public void UpdateBookEvent(int id, Reader reader, BookState bookState, DateTime dateTime)
@@ -155,7 +160,7 @@ namespace Task1.Data
                 DataContext.BookEvents[id].EventTime = dateTime;
                 return;
             }
-            throw new KeyNotFoundException("Event id: " + id + " do not exist");
+            throw new KeyNotFoundException("Event id: " + id + " does not exist");
         }
 
         public void UpdateBookState(int id, Book book, bool available, DateTime buyingDate)
@@ -167,7 +172,7 @@ namespace Task1.Data
                 DataContext.BookStatesList[id].BuyingDate = buyingDate;
                 return;
             }
-            throw new KeyNotFoundException("State id: " + id + " do not exist");
+            throw new KeyNotFoundException("State id: " + id + " does not exist");
         }
 
         public void UpdateReader(int id, string name, string surname, long personalID)
@@ -179,7 +184,7 @@ namespace Task1.Data
                 DataContext.ReadersList[id].PersonalID = personalID;
                 return;
             }
-            throw new KeyNotFoundException("Reader id: " + id + " do not exist");
+            throw new KeyNotFoundException("Reader id: " + id + " does not exist");
         }
     }
 }
