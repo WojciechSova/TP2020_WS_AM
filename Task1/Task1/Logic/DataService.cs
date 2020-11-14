@@ -102,6 +102,19 @@ namespace Task1.Logic
                 }
             }
         }
+
+        public IEnumerable<BookEvent> GetAllBookEventsBetweenDates(DateTime start, DateTime end)
+        {
+            List<BookEvent> list = new List<BookEvent>();
+            foreach (BookEvent e in IDataRepository.GetAllBookEvent())
+            {
+                if (e.EventTime.CompareTo(start) >= 0 && e.EventTime.CompareTo(end) <= 0)
+                {
+                    list.Add(e);
+                }
+            }
+            return list;
+        }
         #endregion
 
         #region Enumerating
