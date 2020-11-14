@@ -13,6 +13,12 @@ namespace Task1.Data
             DataContext = new DataContext();
         }
 
+        public DataRepository(IDataFiller dataFiller, DataContext dataContext)
+        {
+            DataContext = dataContext;
+            dataFiller.Fill(dataContext);
+        }
+
         #region Reader
         public void AddReader(Reader reader)
         {
