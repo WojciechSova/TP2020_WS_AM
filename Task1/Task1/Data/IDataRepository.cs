@@ -20,7 +20,7 @@ namespace Task1.Data
         Book GetBook(int id);
         IEnumerable<Book> GetAllBook();
         void UpdateBook(int id, string isbn, string author, string title, string description);
-        void DeleteBook(Book book);
+        void DeleteBook(int id);
         #endregion
 
         #region BookState

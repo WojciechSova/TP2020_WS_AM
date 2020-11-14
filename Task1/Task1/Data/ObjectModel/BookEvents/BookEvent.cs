@@ -6,7 +6,7 @@ namespace Task1.Data
     {
         public Reader Reader { get; set; }
         public BookState BookState { get; set; }
-        public DateTime EventTime { get; }
+        public DateTime EventTime { get; set; }
 
         
         protected BookEvent(Reader reader, BookState bookState, DateTime dateTime)

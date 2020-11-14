@@ -30,7 +30,7 @@ namespace Task1.Data
             {
                 return DataContext.ReadersList[id];
             }
-            throw new KeyNotFoundException("Reader id: " + id + " do not exist");
+            throw new KeyNotFoundException("Reader id: " + id + " do not exist.");
         }
         public IEnumerable<Reader> GetAllReaders()
         {
@@ -45,7 +45,7 @@ namespace Task1.Data
                 DataContext.ReadersList[id].PersonalID = personalID;
                 return;
             }
-            throw new KeyNotFoundException("Reader id: " + id + " do not exist");
+            throw new KeyNotFoundException("Reader id: " + id + " do not exist.");
         }
 
         public void DeleteReader(Reader reader)
@@ -54,7 +54,7 @@ namespace Task1.Data
             {
                 if (b.Reader == reader)
                 {
-                    throw new ArgumentException("Cannot remove client who still has a borrowed book.");
+                    throw new InvalidOperationException("Cannot remove client who still has a borrowed book.");
                 }
             }
             if (DataContext.ReadersList.Contains(reader))
@@ -69,7 +69,7 @@ namespace Task1.Data
         {
             if (DataContext.BookSet.ContainsValue(book))
             {
-                throw new ArgumentException("Book already exists");
+                throw new ArgumentException("Book already exists.");
             }
 
 
@@ -80,7 +80,7 @@ namespace Task1.Data
         {
             if (!DataContext.BookSet.ContainsKey(id))
             {
-                throw new KeyNotFoundException("Book id: " + id + " does not exist");
+                throw new KeyNotFoundException("Book id: " + id + " does not exist.");
             }
             return DataContext.BookSet[id];
         }
@@ -97,7 +97,7 @@ namespace Task1.Data
                 DataContext.BookSet[id] = new Book(isbn, author, title, description);
                 return;
             }
-            throw new KeyNotFoundException("State id: " + id + " does not exist");
+            throw new KeyNotFoundException("State id: " + id + " does not exist.");
         }
 
         public void DeleteBook(int id)
@@ -107,7 +107,7 @@ namespace Task1.Data
             {
                 if (state.Book.Equals(book) && !state.Available)
                 {
-                    throw new ArgumentException("Cannot remove borrowed book.");
+                    throw new InvalidOperationException("Cannot remove borrowed book.");
                 }
             }
             DataContext.BookSet.Remove(id);
@@ -126,7 +126,7 @@ namespace Task1.Data
             {
                 return DataContext.BookStatesList[id];
             }
-            throw new KeyNotFoundException("State id: " + id + " does not exist");
+            throw new KeyNotFoundException("State id: " + id + " does not exist.");
         }
         public IEnumerable<BookState> GetAllBookState()
         {
@@ -141,11 +141,19 @@ namespace Task1.Data
                 DataContext.BookStatesList[id].BuyingDate = buyingDate;
                 return;
             }
-            throw new KeyNotFoundException("State id: " + id + " does not exist");
+            throw new KeyNotFoundException("State id: " + id + " does not exist.");
         }
         public void DeleteBookState(BookState bookState)
         {
-            throw new NotImplementedException();
+            if (DataContext.BookStatesList.Contains(bookState))
+            {
+                if (bookState.Available)
+                {
+                    DataContext.BookStatesList.Remove(bookState);
+                }
+                throw new InvalidOperationException("Cannot remove BookState whose book is unavailable.");
+            }
+
         }
         #endregion
 
@@ -160,7 +168,7 @@ namespace Task1.Data
             {
                 return DataContext.BookEvents[id];
             }
-            throw new KeyNotFoundException("Event id: " + id + " does not exist");
+            throw new KeyNotFoundException("Event id: " + id + " does not exist.");
         }
         public IEnumerable<BookEvent> GetAllBookEvent()
         {
@@ -175,7 +183,7 @@ namespace Task1.Data
                 DataContext.BookEvents[id].EventTime = dateTime;
                 return;
             }
-            throw new KeyNotFoundException("Event id: " + id + " does not exist");
+            throw new KeyNotFoundException("Event id: " + id + " does not exist.");
         }
         public void DeleteBookEvent(BookEvent bookEvent)
         {
@@ -183,6 +191,7 @@ namespace Task1.Data
             {
                 DataContext.BookEvents.Remove(bookEvent);
             }
+            throw new KeyNotFoundException("BookEvent does not exist.");
         }
         #endregion
     }

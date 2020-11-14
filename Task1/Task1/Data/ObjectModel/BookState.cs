@@ -6,7 +6,7 @@ namespace Task1.Data
     {
         public Book Book { get; set; }
         public bool Available { get; set; }
-        public DateTime BuyingDate { get; }  
+        public DateTime BuyingDate { get; set; }  
 
         public BookState(Book book, bool available, DateTime buyingDate)
         {
