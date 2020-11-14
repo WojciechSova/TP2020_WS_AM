@@ -6,12 +6,17 @@ namespace Task1.Data
 {
     public class BookRent : BookEvent
     {
-        public BookRent(Reader reader, Book book, DateTime dateTime) : base(reader, book, dateTime)
+        public BookRent(Reader reader, BookState bookState, DateTime dateTime) : base(reader, bookState, dateTime)
         {
         }
 
-        public BookRent(Reader reader, Book book) : base(reader, book)
+        public BookRent(Reader reader, BookState bookState) : base(reader, bookState)
         {
+        }
+
+        public override string ToString()
+        {
+            return "Rent - " + base.ToString();
         }
     }
 }

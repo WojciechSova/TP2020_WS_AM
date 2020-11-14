@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Task1.Data
 {
@@ -17,10 +18,28 @@ namespace Task1.Data
             Description = description;
         }
 
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            return "Book: " + Title + ", author: " + Author;
+            return obj is Book book &&
+                   Isbn == book.Isbn &&
+                   Author == book.Author &&
+                   Title == book.Title &&
+                   Description == book.Description;
         }
 
+        public override int GetHashCode()
+        {
+            int hashCode = 1976838697;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Isbn);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Author);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Description);
+            return hashCode;
+        }
+
+        public override string ToString()
+        {
+            return "Book: " + Title + ", author: " + Author + "\n";
+        }
     }
 }
