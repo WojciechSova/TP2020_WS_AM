@@ -25,7 +25,7 @@ namespace Task1.Logic
         #endregion
 
         #region Getters
-        void ShowAllReaderEvents(Reader reader);
+        IEnumerable<BookEvent> GetAllReaderEvents(Reader reader);
         IEnumerable<BookEvent> GetAllBookEventsBetweenDates(DateTime start, DateTime end);
 
         #endregion

@@ -92,15 +92,17 @@ namespace Task1.Logic
         #endregion
 
         #region Getters
-        public void ShowAllReaderEvents(Reader reader)
+        public IEnumerable<BookEvent> GetAllReaderEvents(Reader reader)
         {
+            List<BookEvent> list = new List<BookEvent>();
             foreach (BookEvent be in IDataRepository.GetAllBookEvent())
             {
                 if (be.Reader == reader)
                 {
-                    be.ToString();
+                    list.Add(be);
                 }
             }
+            return list;
         }
 
         public IEnumerable<BookEvent> GetAllBookEventsBetweenDates(DateTime start, DateTime end)
