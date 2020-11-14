@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Task1.Data;
 
 namespace Task1.Logic
@@ -43,6 +44,26 @@ namespace Task1.Logic
         public void DeleteBookState(string isbn)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Book> GetAllBooks()
+        {
+            return IDataRepository.GetAllBook();
+        }
+
+        public IEnumerable<Reader> GetAllReaders()
+        {
+            return IDataRepository.GetAllReaders();
+        }
+
+        public IEnumerable<BookState> GetAllBookStates()
+        {
+            return IDataRepository.GetAllBookState();
+        }
+
+        public IEnumerable<BookEvent> GetAllBookEvents()
+        {
+            return IDataRepository.GetAllBookEvent();
         }
     }
 }
