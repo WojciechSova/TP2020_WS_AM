@@ -48,8 +48,13 @@ namespace Task1.Data
             throw new KeyNotFoundException("Reader id: " + id + " do not exist.");
         }
 
-        public void DeleteReader(Reader reader)
+        public void DeleteReader(int index)
         {
+            if (DataContext.ReadersList[index] == null)
+            {
+                throw new ArgumentException("There's no reader at index: " + index);
+            }
+            Reader reader = DataContext.ReadersList[index];
             foreach (BookEvent b in DataContext.BookEvents)
             {
                 if (b.Reader == reader)
@@ -102,6 +107,10 @@ namespace Task1.Data
 
         public void DeleteBook(int id)
         {
+            if (!DataContext.BookSet.ContainsKey(id))
+            {
+                throw new ArgumentException("Such book does not exist.");
+            }
             Book book = DataContext.BookSet[id];
             foreach (BookState state in DataContext.BookStatesList)
             {

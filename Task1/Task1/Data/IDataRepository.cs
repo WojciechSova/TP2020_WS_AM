@@ -12,7 +12,7 @@ namespace Task1.Data
         Reader GetReader(int id);
         IEnumerable<Reader> GetAllReaders();
         void UpdateReader(int id, string name, string surname, long personalID);
-        void DeleteReader(Reader reader);
+        void DeleteReader(int index);
         #endregion
 
         #region Book
