@@ -19,6 +19,11 @@ namespace Task1.Logic
         void DeleteBookState(BookState bookState);
         #endregion
 
+        #region Rent and Return
+        void RentBook(Reader reader, BookState bookState);
+        void ReturnBook(Reader reader, BookState bookState);
+        #endregion
+
         #region Getters
 
         #endregion
