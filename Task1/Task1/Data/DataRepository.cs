@@ -78,12 +78,16 @@ namespace Task1.Data
 
         public Book GetBook(int id)
         {
-            throw new NotImplementedException();
+            if (!DataContext.BookSet.ContainsKey(id))
+            {
+                throw new KeyNotFoundException("Book id: " + id + " does not exist");
+            }
+            return DataContext.BookSet[id];
         }
 
         public IEnumerable<Book> GetAllBook()
         {
-            throw new NotImplementedException();
+            return DataContext.BookSet.Values;
         }
 
         public void UpdateBook(int id, string isbn, string author, string title, string description)
@@ -96,8 +100,9 @@ namespace Task1.Data
             throw new KeyNotFoundException("State id: " + id + " does not exist");
         }
 
-        public void DeleteBook(Book book)
+        public void DeleteBook(int id)
         {
+            Book book = DataContext.BookSet[id];
             foreach (BookState state in DataContext.BookStatesList)
             {
                 if (state.Book.Equals(book) && !state.Available)
@@ -105,12 +110,7 @@ namespace Task1.Data
                     throw new ArgumentException("Cannot remove borrowed book.");
                 }
             }
-            foreach (string isbn in DataContext.BookSet.Keys)
-            {
-                if (isbn.Equals(book.Isbn))
-                    DataContext.BookSet.Remove(isbn);
-                break;
-            }
+            DataContext.BookSet.Remove(id);
         }
 
         #endregion
