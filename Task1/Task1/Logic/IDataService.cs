@@ -25,6 +25,8 @@ namespace Task1.Logic
         #endregion
 
         #region Getters
+        void ShowAllReaderEvents(Reader reader);
+
 
         #endregion
 

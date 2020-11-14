@@ -67,6 +67,7 @@ namespace Task1.Logic
                     id++;
                 }
             }
+            throw new InvalidOperationException("Cannot rent this book");
         }
 
         public void ReturnBook(Reader reader, BookState bookState)
@@ -84,6 +85,20 @@ namespace Task1.Logic
                         return;
                     }
                     id++;
+                }
+            }
+            throw new InvalidOperationException("Cannot return this book");
+        }
+        #endregion
+
+        #region Getters
+        public void ShowAllReaderEvents(Reader reader)
+        {
+            foreach (BookEvent be in IDataRepository.GetAllBookEvent())
+            {
+                if (be.Reader == reader)
+                {
+                    be.ToString();
                 }
             }
         }
@@ -109,8 +124,8 @@ namespace Task1.Logic
         {
             return IDataRepository.GetAllBookEvent();
         }
-
-
         #endregion
+
+        
     }
 }
