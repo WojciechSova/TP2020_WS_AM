@@ -31,19 +31,19 @@ namespace Task1.Logic
             IDataRepository.AddBookState(bookState);
         }
 
-        public void DeleteBook(string Isbn)
+        public void DeleteBook(int id)
         {
-            throw new NotImplementedException();
+            IDataRepository.DeleteBook(id);
         }
 
-        public void DeleteReader(long PersonalId)
+        public void DeleteReader(int index)
         {
-            throw new NotImplementedException();
+            IDataRepository.DeleteReader(index);
         }
 
-        public void DeleteBookState(string isbn)
+        public void DeleteBookState(BookState bookState)
         {
-            throw new NotImplementedException();
+            IDataRepository.DeleteBookState(bookState);
         }
 
         public IEnumerable<Book> GetAllBooks()
