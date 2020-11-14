@@ -88,7 +88,12 @@ namespace Task1.Data
 
         public void UpdateBook(int id, string isbn, string author, string title, string description)
         {
-            throw new NotImplementedException();
+             if (DataContext.BookSet.ContainsKey(id))
+            {
+                DataContext.BookSet[id] = new Book(isbn, author, title, description);
+                return;
+            }
+            throw new KeyNotFoundException("State id: " + id + " does not exist");
         }
 
         public void DeleteBook(Book book)
@@ -121,7 +126,7 @@ namespace Task1.Data
             {
                 return DataContext.BookStatesList[id];
             }
-            throw new KeyNotFoundException("State id: " + id + " do not exist");
+            throw new KeyNotFoundException("State id: " + id + " does not exist");
         }
         public IEnumerable<BookState> GetAllBookState()
         {
@@ -136,7 +141,7 @@ namespace Task1.Data
                 DataContext.BookStatesList[id].BuyingDate = buyingDate;
                 return;
             }
-            throw new KeyNotFoundException("State id: " + id + " do not exist");
+            throw new KeyNotFoundException("State id: " + id + " does not exist");
         }
         public void DeleteBookState(BookState bookState)
         {
@@ -155,7 +160,7 @@ namespace Task1.Data
             {
                 return DataContext.BookEvents[id];
             }
-            throw new KeyNotFoundException("Event id: " + id + " do not exist");
+            throw new KeyNotFoundException("Event id: " + id + " does not exist");
         }
         public IEnumerable<BookEvent> GetAllBookEvent()
         {
@@ -170,7 +175,7 @@ namespace Task1.Data
                 DataContext.BookEvents[id].EventTime = dateTime;
                 return;
             }
-            throw new KeyNotFoundException("Event id: " + id + " do not exist");
+            throw new KeyNotFoundException("Event id: " + id + " does not exist");
         }
         public void DeleteBookEvent(BookEvent bookEvent)
         {
