@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Task1.Data
 {
@@ -49,7 +50,7 @@ namespace Task1.Data
             {
                 if (state.Book.Equals(book) && !state.Available)
                 {
-                    throw new ArgumentException("Cannot remove borrowed book.")
+                    throw new ArgumentException("Cannot remove borrowed book.");
                 }
             }
             foreach (string isbn in DataContext.BookSet.Keys)
@@ -95,17 +96,17 @@ namespace Task1.Data
 
         public IEnumerable<BookEvent> GetAllBookEvent()
         {
-            throw new NotImplementedException();
+            return DataContext.BookEvents;
         }
 
         public IEnumerable<BookState> GetAllBookState()
         {
-            throw new NotImplementedException();
+            return DataContext.BookStatesList;
         }
 
         public IEnumerable<Reader> GetAllReaders()
         {
-            throw new NotImplementedException();
+            return DataContext.ReadersList;
         }
 
         public Book GetBook(int id)
@@ -115,17 +116,29 @@ namespace Task1.Data
 
         public BookEvent GetBookEvent(int id)
         {
-            throw new NotImplementedException();
+            if(DataContext.BookEvents.ElementAtOrDefault(id) != null)
+            {
+                return DataContext.BookEvents[id];
+            }
+            throw new KeyNotFoundException("Event id: " + id + " do not exist");
         }
 
         public BookState GetBookState(int id)
         {
-            throw new NotImplementedException();
+            if (DataContext.BookStatesList.ElementAtOrDefault(id) != null)
+            {
+                return DataContext.BookStatesList[id];
+            }
+            throw new KeyNotFoundException("State id: " + id + " do not exist");
         }
 
         public Reader GetReader(int id)
         {
-            throw new NotImplementedException();
+            if (DataContext.ReadersList.ElementAtOrDefault(id) != null)
+            {
+                return DataContext.ReadersList[id];
+            }
+            throw new KeyNotFoundException("Reader id: " + id + " do not exist");
         }
 
         public void UpdateBook(int id, string isbn, string author, string title, string description)
@@ -135,17 +148,38 @@ namespace Task1.Data
 
         public void UpdateBookEvent(int id, Reader reader, BookState bookState, DateTime dateTime)
         {
-            throw new NotImplementedException();
+            if (DataContext.BookEvents.ElementAtOrDefault(id) != null)
+            {
+                DataContext.BookEvents[id].Reader = reader;
+                DataContext.BookEvents[id].BookState = bookState;
+                DataContext.BookEvents[id].EventTime = dateTime;
+                return;
+            }
+            throw new KeyNotFoundException("Event id: " + id + " do not exist");
         }
 
         public void UpdateBookState(int id, Book book, bool available, DateTime buyingDate)
         {
-            throw new NotImplementedException();
+            if (DataContext.BookStatesList.ElementAtOrDefault(id) != null)
+            {
+                DataContext.BookStatesList[id].Book = book;
+                DataContext.BookStatesList[id].Available = available;
+                DataContext.BookStatesList[id].BuyingDate = buyingDate;
+                return;
+            }
+            throw new KeyNotFoundException("State id: " + id + " do not exist");
         }
 
         public void UpdateReader(int id, string name, string surname, long personalID)
         {
-            throw new NotImplementedException();
+            if (DataContext.ReadersList.ElementAtOrDefault(id) != null)
+            {
+                DataContext.ReadersList[id].Name = name;
+                DataContext.ReadersList[id].Surname = surname;
+                DataContext.ReadersList[id].PersonalID = personalID;
+                return;
+            }
+            throw new KeyNotFoundException("Reader id: " + id + " do not exist");
         }
     }
 }
