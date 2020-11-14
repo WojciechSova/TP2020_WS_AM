@@ -14,9 +14,9 @@ namespace Task1.Logic
         #endregion
 
         #region Deleting
-        void DeleteBook(string Isbn);
-        void DeleteReader(long PersonalId);
-        void DeleteBookState(string isbn);
+        void DeleteBook(int id);
+        void DeleteReader(int index);
+        void DeleteBookState(BookState bookState);
         #endregion
 
         #region Getters
