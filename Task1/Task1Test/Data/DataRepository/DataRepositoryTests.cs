@@ -43,10 +43,10 @@ namespace Task1Test.Data.DataRepository
         [TestMethod]
         public void GetReaderTest()
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < dataContext.ReadersList.Count; i++)
             {
-                Assert.AreEqual("Sodaj" + i.ToString(), dataRepository.GetReader(i).Surname);
-                Assert.AreEqual(1000000 + i, dataRepository.GetReader(i).PersonalID);
+                Assert.AreEqual(dataContext.ReadersList[i].Surname, dataRepository.GetReader(i).Surname);
+                Assert.AreEqual(dataContext.ReadersList[i].PersonalID, dataRepository.GetReader(i).PersonalID);
             }
         }
 
@@ -59,10 +59,10 @@ namespace Task1Test.Data.DataRepository
         [TestMethod]
         public void UpdateReaderTest()
         {
-            dataRepository.UpdateReader(5, "UpdatedName", "UpdatedSurname", 7777777);
+            dataRepository.UpdateReader(0, "UpdatedName", "UpdatedSurname", 7777777);
 
-            Assert.AreEqual("UpdatedName", dataRepository.GetReader(5).Name);
-            Assert.AreEqual(7777777, dataRepository.GetReader(5).PersonalID);
+            Assert.AreEqual("UpdatedName", dataRepository.GetReader(0).Name);
+            Assert.AreEqual(7777777, dataRepository.GetReader(0).PersonalID);
         }
 
         [TestMethod]
@@ -76,11 +76,35 @@ namespace Task1Test.Data.DataRepository
         [TestMethod]
         public void DeleteReaderTest()
         {
-            int listOfReadersSize = dataRepository.GetAllReaders().Count();
-
-            dataRepository.DeleteReader(1);
-
-            Assert.AreEqual(listOfReadersSize - 1, dataRepository.GetAllReaders().Count());
+            int listOfReadersSize = dataContext.ReadersList.Count;
+            List<BookRent> listOfRents = dataContext.BookEvents.OfType<BookRent>().ToList();
+            List<Reader> listOfClientsWithRent = new List<Reader>();
+            if (listOfRents.Count != 0)
+            {
+                foreach (BookRent br in listOfRents)
+                {
+                    listOfClientsWithRent.Add(br.Reader);
+                }
+                foreach (Reader reader in dataContext.ReadersList)
+                {
+                    foreach (Reader hasRent in listOfClientsWithRent)
+                    {
+                        if (!reader.Equals(hasRent))
+                        {
+                            dataRepository.DeleteReader(dataContext.ReadersList.IndexOf(reader));
+                            Assert.AreEqual(listOfReadersSize - 1, dataContext.ReadersList.Count);
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                dataRepository.DeleteReader(0);
+                Assert.AreEqual(listOfReadersSize - 1, dataContext.ReadersList.Count);
+                return;
+            }
+                Assert.Inconclusive("No borrowed book so cannot check if borrowed book can be deleted");
         }
 
         [TestMethod]
