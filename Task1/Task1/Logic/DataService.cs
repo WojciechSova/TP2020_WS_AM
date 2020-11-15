@@ -14,21 +14,21 @@ namespace Task1.Logic
             IDataRepository = iDataRepository;
         }
         #region Adding
-        public void AddBook(string Isbn, string Author, string Title, string Description)
+        public void AddBook(string isbn, string author, string title, string description)
         {
-            Book book = new Book(Isbn, Author, Title, Description);
+            Book book = new Book(isbn, author, title, description);
             IDataRepository.AddBook(book);
         }
 
-        public void AddReader(string Name, string Surname, long PersonalId)
+        public void AddReader(string name, string surname, long personalId)
         {
-            Reader reader = new Reader(Name, Surname, PersonalId);
+            Reader reader = new Reader(name, surname, personalId);
             IDataRepository.AddReader(reader);
         }
 
-        public void AddBookState(Book Book, bool Available, DateTime BuyingTime)
+        public void AddBookState(Book book, bool available, DateTime buyingTime)
         {
-            BookState bookState = new BookState(Book, Available, BuyingTime);
+            BookState bookState = new BookState(book, available, buyingTime);
             IDataRepository.AddBookState(bookState);
         }
         #endregion

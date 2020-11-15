@@ -7,7 +7,7 @@ namespace Task1.Logic
     public interface IDataService
     {
         #region Adding
-        void AddBook(string Isbn, string Author, string Title, string Description);
+        void AddBook(string isbn, string author, string title, string description);
         void AddReader(string Name, string Surname, long PersonalId);
         void AddBookState(Book Book, bool Available, DateTime BuyingTime);
         #endregion
