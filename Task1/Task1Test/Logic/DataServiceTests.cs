@@ -38,6 +38,7 @@ namespace Task1Test.Logic
             dataService.RentBook(reader1, bookState1);
 
             Assert.ThrowsException<InvalidOperationException>(() => dataService.RentBook(reader1, bookState2));
+            Assert.IsFalse(bookState1.Available);
             Assert.AreEqual(amountOfRentedBooks1 + 1, dataService.GetAllReaderEvents(reader1).OfType<BookRent>().Count());
         }
 
@@ -51,15 +52,17 @@ namespace Task1Test.Logic
             BookState bookState1 = new BookState(book1, true, new System.DateTime(2011, 11, 11));
             BookState bookState2 = new BookState(book2, true, new System.DateTime(1998, 8, 7));
 
-            dataService.RentBook(reader1, bookState2);
+            dataService.RentBook(reader1, bookState1);
             dataService.RentBook(reader1, bookState2);
 
-            int amountOfRentedBooks1 = dataService.GetAllReaderEvents(reader1).OfType<BookRent>().Count();
+            int amountOfReturnedBooks = dataService.GetAllReaderEvents(reader1).OfType<BookReturn>().Count();
 
             dataService.ReturnBook(reader1, bookState1);
 
-            Assert.AreEqual(amountOfRentedBooks1 - 1, dataService.GetAllReaderEvents(reader1).OfType<BookRent>().Count());
-            //Assert.ThrowsException<InvalidOperationException>(() => dataService.ReturnBook(reader1, bookState1));
+            Assert.IsTrue(bookState1.Available);
+            Assert.IsFalse(bookState2.Available);
+            Assert.AreEqual(amountOfReturnedBooks + 1, dataService.GetAllReaderEvents(reader1).OfType<BookReturn>().Count());
+            Assert.ThrowsException<InvalidOperationException>(() => dataService.ReturnBook(reader1, bookState1));
 
         }
         #endregion
