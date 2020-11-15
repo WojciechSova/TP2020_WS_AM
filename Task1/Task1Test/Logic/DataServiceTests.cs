@@ -12,7 +12,6 @@ namespace Task1Test.Logic
     {
         private IDataFiller dataFiller = new ConstantFiller();
         private DataContext dataContext = new DataContext();
-        private IDataRepository dataRepository;
         private IDataService dataService;
 
         [TestInitialize()]
