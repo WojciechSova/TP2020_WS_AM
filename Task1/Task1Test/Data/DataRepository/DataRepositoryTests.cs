@@ -160,7 +160,24 @@ namespace Task1Test.Data.DataRepository
         [TestMethod]
         public void CannotRemoveBorrowedBookTest()
         {
-            Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteBook(0));
+            Book book = null;
+            foreach (BookState bs in dataRepository.GetAllBookState())
+            {
+                if (!bs.Available)
+                {
+                    book = bs.Book;
+                    break;
+                }
+            }
+            if (book != null)
+            {
+                int id = dataContext.BookSet.FirstOrDefault(x => x.Value == book).Key;
+                Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteBook(0));
+            }
+            else
+            {
+                Assert.Inconclusive("No borrowed book so cannot check if borrowed book can be deleted");
+            }
         }
         #endregion
 
@@ -229,7 +246,23 @@ namespace Task1Test.Data.DataRepository
         [TestMethod]
         public void CannotRemoveBookStateWhoseBookIsBorrowedTest()
         {
-            Assert.Inconclusive();
+            BookState bookState = null;
+            foreach (BookState bs in dataRepository.GetAllBookState())
+            {
+                if (!bs.Available)
+                {
+                    bookState = bs;
+                    break;
+                }
+            }
+            if (bookState != null)
+            {
+                Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteBookState(bookState));
+            }
+            else
+            {
+                Assert.Inconclusive("No state with borrowed book so cannot check if state with borrowed book can be deleted");
+            }
         }
         #endregion
     }
