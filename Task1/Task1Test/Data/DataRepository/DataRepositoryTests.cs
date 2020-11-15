@@ -78,33 +78,20 @@ namespace Task1Test.Data.DataRepository
         {
             int listOfReadersSize = dataContext.ReadersList.Count;
             List<BookRent> listOfRents = dataContext.BookEvents.OfType<BookRent>().ToList();
+            List<BookReturn> listOfReturns = dataContext.BookEvents.OfType<BookReturn>().ToList();
             List<Reader> listOfClientsWithRent = new List<Reader>();
-            if (listOfRents.Count != 0)
+            List<Reader> listOfClientWithReturn = new List<Reader>();
+            
+            foreach (BookEvent be in dataRepository.GetAllBookEvent())
             {
-                foreach (BookRent br in listOfRents)
+                if (be.GetType() == typeof(BookRent))
                 {
-                    listOfClientsWithRent.Add(br.Reader);
-                }
-                foreach (Reader reader in dataContext.ReadersList)
-                {
-                    foreach (Reader hasRent in listOfClientsWithRent)
-                    {
-                        if (!reader.Equals(hasRent))
-                        {
-                            dataRepository.DeleteReader(dataContext.ReadersList.IndexOf(reader));
-                            Assert.AreEqual(listOfReadersSize - 1, dataContext.ReadersList.Count);
-                            return;
-                        }
-                    }
+                    listOfClientsWithRent.Add(be.Reader);
                 }
             }
-            else
-            {
-                dataRepository.DeleteReader(0);
-                Assert.AreEqual(listOfReadersSize - 1, dataContext.ReadersList.Count);
-                return;
-            }
-                Assert.Inconclusive("No borrowed book so cannot check if borrowed book can be deleted");
+
+            Assert.AreEqual()
+            Assert.Inconclusive("No borrowed book so cannot check if borrowed book can be deleted");
         }
 
         [TestMethod]
