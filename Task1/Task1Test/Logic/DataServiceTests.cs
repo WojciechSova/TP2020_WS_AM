@@ -10,7 +10,7 @@ namespace Task1Test.Logic
     [TestClass]
     public class DataServiceTests
     {
-        private IDataFiller dataFiller = new ConstantFiller();
+        private IDataFiller dataFiller = new RandomFiller();
         private DataContext dataContext = new DataContext();
         private IDataService dataService;
 

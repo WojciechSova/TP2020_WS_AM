@@ -10,7 +10,7 @@ namespace Task1Test.Data
     [TestClass]
     public class DataRepositoryTests
     {
-        IDataFiller dataFiller = new ConstantFiller();
+        IDataFiller dataFiller = new RandomFiller();
         DataContext dataContext= new DataContext();
         IDataRepository dataRepository;
 
@@ -294,7 +294,7 @@ namespace Task1Test.Data
         [TestMethod]
         public void GetBookEventTest()
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < dataContext.BookEvents.Count; i++)
             {
                 Assert.IsTrue(dataContext.BookEvents[i].Equals(dataRepository.GetBookEvent(i)));
             }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Task1.Data;
-using Task1.Logic;
 
 
 namespace Task1Test.DataFiller
