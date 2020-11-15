@@ -196,7 +196,7 @@ namespace Task1Test.Data.DataRepository
             if (book != null)
             {
                 int id = dataContext.BookSet.FirstOrDefault(x => x.Value == book).Key;
-                Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteBook(0));
+                Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteBook(id));
             }
             else
             {
