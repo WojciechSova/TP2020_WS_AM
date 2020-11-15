@@ -30,7 +30,14 @@ namespace Task1Test.DataFiller
         [TestMethod]
         public void RandomFilterTest()
         {
-            Assert.Inconclusive();
+            IDataFiller dataFiller = new RandomFiller();
+            IDataRepository dataRepository = new DataRepository(dataFiller, dataContext);
+
+
+            Assert.AreEqual(7, dataContext.ReadersList.Count);
+            Assert.AreEqual(7, dataContext.BookSet.Count);
+            Assert.AreEqual(7, dataContext.BookStatesList.Count);
+            Assert.AreEqual(5, dataContext.BookEvents.OfType<BookRent>().ToList().Count);
         }
     }
 }
