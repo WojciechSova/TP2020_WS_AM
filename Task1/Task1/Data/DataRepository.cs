@@ -203,12 +203,11 @@ namespace Task1.Data
         }
         public void DeleteBookEvent(BookEvent bookEvent)
         {
-            if (DataContext.BookEvents.Contains(bookEvent))
+            if (!DataContext.BookEvents.Contains(bookEvent))
             {
-                DataContext.BookEvents.Remove(bookEvent);
-                return;
+                throw new KeyNotFoundException("BookEvent does not exist.");
             }
-            throw new KeyNotFoundException("BookEvent does not exist.");
+            DataContext.BookEvents.Remove(bookEvent);
         }
         #endregion
     }

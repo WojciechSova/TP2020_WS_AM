@@ -68,9 +68,9 @@ namespace Task1Test.Data.DataRepository
         [TestMethod]
         public void NonExistentReaderTest()
         {
-            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.UpdateReader(10, "Artur", "Xinski", 123456987));
-            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetReader(10));
-            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.DeleteReader(10));
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.UpdateReader(dataContext.ReadersList.Count() + 2, "Artur", "Xinski", 123456987));
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetReader(dataContext.ReadersList.Count() + 2));
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.DeleteReader(dataContext.ReadersList.Count() + 2));
         }
 
         [TestMethod]
@@ -263,6 +263,74 @@ namespace Task1Test.Data.DataRepository
             {
                 Assert.Inconclusive("No state with borrowed book so cannot check if state with borrowed book can be deleted");
             }
+        }
+        #endregion
+
+        #region BookEvent
+        [TestMethod]
+        public void AddEventTest()
+        {
+            int listOfBookEventsSize = dataRepository.GetAllBookEvent().Count();
+            dataRepository.AddEvent(new BookRent(
+                new Reader("Artur", "Xinski", 123456987), 
+                new BookState(new Book("111-222-333", "Wojciech Sowa", "Life is life", "Amazing book"), false, new DateTime(1999, 12, 12))));
+
+            Assert.AreEqual(listOfBookEventsSize + 1, dataRepository.GetAllBookEvent().Count());
+            Assert.AreEqual("Wojciech Sowa", dataRepository.GetBookEvent(dataRepository.GetAllBookEvent().Count() - 1).BookState.Book.Author);
+
+        }
+
+        [TestMethod]
+        public void GetBookEventTest()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                Assert.IsTrue(dataContext.BookEvents[i].Equals(dataRepository.GetBookEvent(i)));
+            }
+        }
+
+        [TestMethod]
+        public void GetAllBookEventsTest()
+        {
+            Assert.AreEqual(dataContext.BookEvents.Count, dataRepository.GetAllBookEvent().Count());
+        }
+
+        [TestMethod]
+        public void UpdateBookEventTest()
+        {
+            dataRepository.UpdateBookEvent(0, 
+                new Reader("Artur", "Xinski", 123456987), 
+                new BookState(new Book("111-222-333", "Wojciech Sowa", "Life is life", "Amazing book"), false, new DateTime(1999, 12, 12)), 
+                new DateTime(2010, 7, 8));
+
+            Assert.AreEqual(123456987, dataRepository.GetBookEvent(0).Reader.PersonalID);
+            Assert.IsFalse(dataRepository.GetBookEvent(0).BookState.Available);
+        }
+
+        [TestMethod]
+        public void NonExistentBookEventTest()
+        {
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.UpdateBookEvent(
+                dataContext.BookEvents.Count() + 2,
+                new Reader("Artur", "Xinski", 123456987),
+                new BookState(new Book("111-222-333", "Wojciech Sowa", "Life is life", "Amazing book"), false, new DateTime(1999, 12, 12)),
+                new DateTime(2010, 7, 8)));
+
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetBookEvent(
+                dataContext.BookEvents.Count() + 2));
+
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.DeleteBookEvent(
+                dataRepository.GetBookEvent(dataContext.BookEvents.Count() + 2)));
+        }
+
+        [TestMethod]
+        public void DeleteBookEventTest()
+        {
+            int listOfBookEventSize = dataRepository.GetAllBookEvent().Count();
+
+            dataRepository.DeleteBookEvent(dataContext.BookEvents[0]);
+
+            Assert.AreEqual(listOfBookEventSize - 1, dataRepository.GetAllBookEvent().Count());
         }
         #endregion
     }
