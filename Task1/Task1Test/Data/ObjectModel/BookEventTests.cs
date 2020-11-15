@@ -17,7 +17,7 @@ namespace Task1Test.Data
         public void SetUp()
         {
             IDataFiller dataFiller = new ConstantFiller();
-            IDataRepository dataRepository = new DataRepository(dataFiller, dataContext);
+            IDataRepository dataRepository = new Task1.Data.DataRepository(dataFiller, dataContext);
             bookEvent1 = new BookRent(dataContext.ReadersList[3], dataContext.BookStatesList[0], new DateTime(2017, 11, 14));
             bookEvent2 = new BookReturn(dataContext.ReadersList[3], dataContext.BookStatesList[0], new DateTime(2017, 11, 14));
         }

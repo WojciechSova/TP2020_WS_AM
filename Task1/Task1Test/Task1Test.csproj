@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\DataRepository\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Task1\Task1.csproj" />
   </ItemGroup>
 
