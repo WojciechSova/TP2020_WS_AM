@@ -14,6 +14,17 @@ namespace Task1.Data
         {
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is BookReturn && base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 32190453;
+            return hashCode * -1521134295 + base.GetHashCode();
+        }
+
         public override string ToString()
         {
             return "Return - " + base.ToString();
