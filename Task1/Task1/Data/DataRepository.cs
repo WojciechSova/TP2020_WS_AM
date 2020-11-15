@@ -165,10 +165,11 @@ namespace Task1.Data
                 if (bookState.Available)
                 {
                     DataContext.BookStatesList.Remove(bookState);
+                    return;
                 }
                 throw new InvalidOperationException("Cannot remove BookState whose book is unavailable.");
             }
-
+            throw new KeyNotFoundException("State does not exist.");
         }
         #endregion
 
