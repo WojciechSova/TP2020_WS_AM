@@ -56,9 +56,9 @@ namespace Task1.Data
 
         public void DeleteReader(int index)
         {
-            if (DataContext.ReadersList[index] == null)
+            if (DataContext.ReadersList.ElementAtOrDefault(index) == null)
             {
-                throw new ArgumentException("There's no reader at index: " + index);
+                throw new KeyNotFoundException("There's no reader at index: " + index);
             }
             Reader reader = DataContext.ReadersList[index];
             foreach (BookEvent b in DataContext.BookEvents)
