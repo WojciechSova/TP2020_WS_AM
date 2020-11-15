@@ -55,17 +55,8 @@ namespace Task1.Logic
         {
             if (bookState.Available)
             {
-                int id = 0;
-                foreach (BookState bs in IDataRepository.GetAllBookState())
-                {
-                    if (bs == bookState)
-                    {
-                        IDataRepository.UpdateBookState(id, bookState.Book, false, bookState.BuyingDate);
-                        IDataRepository.AddEvent(new BookRent(reader, bookState, DateTime.Now));
-                        return;
-                    }
-                    id++;
-                }
+                IDataRepository.AddEvent(new BookRent(reader, bookState, DateTime.Now));
+                return;
             }
             throw new InvalidOperationException("Cannot rent this book");
         }
@@ -75,17 +66,8 @@ namespace Task1.Logic
             Reader reader1 = IDataRepository.GetAllBookEvent().ToList().Find(r => r.BookState == bookState).Reader;
             if (!bookState.Available && reader == reader1)
             {
-                int id = 0;
-                foreach (BookState bs in IDataRepository.GetAllBookState())
-                {
-                    if (bs == bookState)
-                    {
-                        IDataRepository.UpdateBookState(id, bookState.Book, true, bookState.BuyingDate);
-                        IDataRepository.AddEvent(new BookReturn(reader, bookState, DateTime.Now));
-                        return;
-                    }
-                    id++;
-                }
+                IDataRepository.AddEvent(new BookReturn(reader, bookState, DateTime.Now));
+                return;
             }
             throw new InvalidOperationException("Cannot return this book");
         }
