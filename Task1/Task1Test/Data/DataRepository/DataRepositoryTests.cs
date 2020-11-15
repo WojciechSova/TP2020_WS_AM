@@ -114,8 +114,8 @@ namespace Task1Test.Data.DataRepository
             int id = 0;
             foreach (Book b in dataRepository.GetAllBook())
             {
-                Assert.AreEqual("123-456-" + id, b.Isbn);
-                Assert.AreEqual("Catchy Title " + id, b.Title);
+                Assert.AreEqual(dataContext.BookSet[id].Isbn, b.Isbn);
+                Assert.AreEqual(dataContext.BookSet[id].Title, b.Title);
                 id++;
             }
         }
@@ -125,7 +125,7 @@ namespace Task1Test.Data.DataRepository
         {
             Assert.AreEqual(dataContext.BookSet.Count, dataRepository.GetAllBook().Count());
         }
-
+        
         [TestMethod]
         public void UpdateBookTest()
         {
@@ -138,9 +138,9 @@ namespace Task1Test.Data.DataRepository
         [TestMethod]
         public void NonExistentBookTest()
         {
-            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.UpdateBook(10, "111-1-11-1", "Sowa", "Life Is Life", "Amazing Book"));
-            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetBook(10));
-            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.DeleteBook(10));
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.UpdateBook(dataContext.BookSet.Last().Key + 2, "111-1-11-1", "Sowa", "Life Is Life", "Amazing Book"));
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetBook(dataContext.BookSet.Last().Key + 2));
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.DeleteBook(dataContext.BookSet.Last().Key + 2));
         }
 
         [TestMethod]
@@ -161,6 +161,75 @@ namespace Task1Test.Data.DataRepository
         public void CannotRemoveBorrowedBookTest()
         {
             Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteBook(0));
+        }
+        #endregion
+
+        #region BookState
+        [TestMethod]
+        public void AddBookStateTest()
+        {
+            DateTime dateTime = DateTime.Now; 
+            int listOfBookStateSize = dataRepository.GetAllBookState().Count();
+            dataRepository.AddBookState(new BookState(dataRepository.GetBook(0), true, dateTime));
+
+            Assert.AreEqual(listOfBookStateSize + 1, dataRepository.GetAllBookState().Count());
+            Assert.AreEqual(dateTime, dataRepository.GetBookState(dataRepository.GetAllBookState().Count() - 1).BuyingDate);
+        }
+
+        [TestMethod]
+        public void GetBookStateTest()
+        {
+            int id = 0;
+            foreach (BookState bs in dataRepository.GetAllBookState())
+            {
+                Assert.AreEqual(dataContext.BookStatesList[id].Book, bs.Book);
+                Assert.AreEqual(dataContext.BookStatesList[id].BuyingDate, bs.BuyingDate);
+                id++;
+            }
+        }
+
+        [TestMethod]
+        public void GetAllBookStateTest()
+        {
+            Assert.AreEqual(dataContext.BookStatesList.Count, dataRepository.GetAllBookState().Count());
+        }
+
+        [TestMethod]
+        public void UpdateBookStateTest()
+        {
+            dataRepository.AddBookState(new BookState(dataRepository.GetBook(0), true, DateTime.Now));
+            Assert.AreEqual(true, dataRepository.GetAllBookState().Last().Available);
+            dataRepository.UpdateBookState(dataContext.BookStatesList.Count-1, dataRepository.GetBook(0), false, DateTime.Now);
+            Assert.AreEqual(false, dataRepository.GetAllBookState().Last().Available);
+        }
+        
+        [TestMethod]
+        public void NonExistentBookStateTest()
+        {
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.UpdateBookState(dataContext.BookStatesList.Count + 2, dataRepository.GetBook(0), false, DateTime.Now));
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetBookState(dataContext.BookStatesList.Count + 2));
+            BookState bookState = new BookState(dataRepository.GetBook(0), true, DateTime.Now);
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.DeleteBookState(bookState));
+        }
+
+        [TestMethod]
+        public void DeleteBookStateTest()
+        {
+            BookState bookState = new BookState(dataRepository.GetBook(3), true, DateTime.Now);
+            dataRepository.AddBookState(bookState);
+
+            int id = dataContext.BookStatesList.Count - 1;
+            Assert.AreEqual(dataContext.BookStatesList.ElementAt(id), bookState);
+
+
+            dataRepository.DeleteBookState(bookState);
+            Assert.IsFalse(dataContext.BookStatesList.Contains(bookState));
+        }
+
+        [TestMethod]
+        public void CannotRemoveBookStateWhoseBookIsBorrowedTest()
+        {
+            Assert.Inconclusive();
         }
         #endregion
 
