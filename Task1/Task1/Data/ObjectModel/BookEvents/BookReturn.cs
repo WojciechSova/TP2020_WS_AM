@@ -8,10 +8,12 @@ namespace Task1.Data
     {
         public BookReturn(Reader reader, BookState bookState) : base(reader, bookState)
         {
+            bookState.Available = true;
         }
 
         public BookReturn(Reader reader, BookState bookState, DateTime dateTime) : base(reader, bookState, dateTime)
         {
+            bookState.Available = true;
         }
 
         public override bool Equals(object obj)

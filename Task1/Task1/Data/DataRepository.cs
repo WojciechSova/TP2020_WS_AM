@@ -108,14 +108,14 @@ namespace Task1.Data
                 DataContext.BookSet[id] = new Book(isbn, author, title, description);
                 return;
             }
-            throw new KeyNotFoundException("State id: " + id + " does not exist.");
+            throw new KeyNotFoundException("Book id: " + id + " does not exist.");
         }
 
         public void DeleteBook(int id)
         {
             if (!DataContext.BookSet.ContainsKey(id))
             {
-                throw new ArgumentException("Such book does not exist.");
+                throw new KeyNotFoundException("Such book does not exist.");
             }
             Book book = DataContext.BookSet[id];
             foreach (BookState state in DataContext.BookStatesList)
