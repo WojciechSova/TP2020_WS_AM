@@ -76,28 +76,28 @@ namespace Task1Test.Data
         [TestMethod]
         public void DeleteReaderTest()
         {
-            int listOfReadersSize = dataContext.ReadersList.Count;
-            List<BookRent> listOfRents = dataContext.BookEvents.OfType<BookRent>().ToList();
-            List<BookReturn> listOfReturns = dataContext.BookEvents.OfType<BookReturn>().ToList();
-            List<Reader> listOfClientsWithRent = new List<Reader>();
-            List<Reader> listOfClientWithReturn = new List<Reader>();
-            
-            foreach (BookEvent be in dataRepository.GetAllBookEvent())
-            {
-                if (be.GetType() == typeof(BookRent))
-                {
-                    listOfClientsWithRent.Add(be.Reader);
-                }
-            }
+            Reader reader = new Reader("Artur", "Xinski", 123456987);
+            dataRepository.AddReader(reader);
 
-            Assert.AreEqual()
-            Assert.Inconclusive("No borrowed book so cannot check if borrowed book can be deleted");
+            int id = dataContext.ReadersList.Count();
+            Assert.AreEqual(dataContext.ReadersList[id - 1], reader);
+
+
+            dataRepository.DeleteReader(id - 1);
+            Assert.IsFalse(dataContext.ReadersList.Contains(reader));
         }
 
         [TestMethod]
         public void CannotRemoveReaderWithBorrowedBook()
         {
-            Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteReader(5));
+            Reader reader = new Reader("Artur", "Xinski", 123456987);
+            BookEvent rent = new BookRent(
+                reader,
+                new BookState(new Book("111-222-333", "Wojciech Sowa", "Life is life", "Amazing book"), true, DateTime.Now));
+            dataRepository.AddReader(reader);
+            dataRepository.AddEvent(rent);
+
+            Assert.ThrowsException<InvalidOperationException>(() => dataRepository.DeleteReader(dataContext.ReadersList.Count - 1));
         }
         #endregion
 
