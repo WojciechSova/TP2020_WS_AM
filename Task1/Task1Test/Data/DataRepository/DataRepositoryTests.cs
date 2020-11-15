@@ -5,7 +5,7 @@ using System.Linq;
 using Task1.Data;
 using Task1Test.DataFiller;
 
-namespace Task1Test.Data.DataRepository
+namespace Task1Test.Data
 {
     [TestClass]
     public class DataRepositoryTests

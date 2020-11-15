@@ -66,5 +66,44 @@ namespace Task1Test.Logic
 
         }
         #endregion
+
+        #region Getters
+        [TestMethod]
+        public void GetAllReaderEventsTest()
+        {
+            Reader reader1 = new Reader("Artur", "Xinski", 123456987);
+            Book book1 = new Book("111-222-333", "Wojciech Sowa", "Life is life", "Amazing book");
+            Book book2 = new Book("156-879-654", "John Tolkien", "LOTR", "Must have");
+            BookState bookState1 = new BookState(book1, true, new System.DateTime(2011, 11, 11));
+            BookState bookState2 = new BookState(book2, true, new System.DateTime(1998, 8, 7));
+
+            dataService.RentBook(reader1, bookState1);
+            dataService.RentBook(reader1, bookState2);
+
+            Assert.AreEqual(2, dataService.GetAllReaderEvents(reader1).Count());
+        }
+
+        [TestMethod]
+        public void GetAllBookEventsBetweenDatesTest()
+        {
+            Reader reader = new Reader("Artur", "Xinski", 123456987);
+            Book book = new Book("111-222-333", "Wojciech Sowa", "Life is life", "Amazing book");
+            BookState bookState1 = new BookState(book, true, new System.DateTime(2011, 11, 11));
+            BookState bookState2 = new BookState(book, true, new System.DateTime(1998, 8, 7));
+
+            DateTime firstDate = DateTime.Now;
+
+            Assert.AreEqual(0, dataService.GetAllBookEventsBetweenDates(firstDate, DateTime.Now).Count());
+
+            dataService.RentBook(reader, bookState1);
+            Assert.AreEqual(1, dataService.GetAllBookEventsBetweenDates(firstDate, DateTime.Now).Count());
+
+            dataService.RentBook(reader, bookState2);
+            Assert.AreEqual(2, dataService.GetAllBookEventsBetweenDates(firstDate, DateTime.Now).Count());
+
+            dataService.ReturnBook(reader, bookState1);
+            Assert.AreEqual(3, dataService.GetAllBookEventsBetweenDates(firstDate, DateTime.Now).Count());
+        }
+        #endregion
     }
 }
