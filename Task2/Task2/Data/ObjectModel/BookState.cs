@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Task2.Data
 {
-    public class BookState
+    public class BookState : ISerializable
     {
+        public Guid BookStateGuid { get; set; }
         public Book Book { get; set; }
         public bool Available { get; set; }
         public DateTime BuyingDate { get; set; }  
 
         public BookState(Book book, bool available, DateTime buyingDate)
         {
+            this.BookStateGuid = Guid.NewGuid();
             Book = book;
             Available = available;
             BuyingDate = buyingDate;
@@ -36,6 +39,14 @@ namespace Task2.Data
         public override string ToString()
         {
             return Book + " is available: " + Available + " Buying date: " + BuyingDate + "\n";
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("BookStateId", BookStateGuid);
+            Book.GetObjectData(info, context);
+            info.AddValue("Available", Available);
+            info.AddValue("BuyingDate", BuyingDate);
         }
     }
 }

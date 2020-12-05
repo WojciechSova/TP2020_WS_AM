@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Task2.Data
 {
-    public class Reader
+    public class Reader : ISerializable
     {
+        public Guid ReaderGuid { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public long PersonalID { get; set; }
 
         public Reader(string name, string surname, long personalId)
         {
+            this.ReaderGuid = Guid.NewGuid();
             Name = name;
             Surname = surname;
             PersonalID = personalId;
@@ -35,6 +38,13 @@ namespace Task2.Data
         public override string ToString()
         {
             return "Client: " + Name + " " + Surname + ", personal ID: " + PersonalID + "\n";
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("ReaderId", ReaderGuid);
+            info.AddValue("Name", Name);
+            info.AddValue("Surname", Surname);
         }
     }
 }

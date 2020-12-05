@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
-namespace Task2.Data
+namespace Task2.Data  
 {
-    public class Book
+    public class Book : ISerializable
     {
+
+        public Guid BookGuid { get; set; }
         public string Isbn { get; set; }
         public string Author { get; set; }
         public string Title { get; set; }
@@ -11,6 +15,7 @@ namespace Task2.Data
 
         public Book(string isbn, string author, string title, string description)
         {
+            this.BookGuid = Guid.NewGuid();
             Isbn = isbn;
             Author = author;
             Title = title;
@@ -39,6 +44,15 @@ namespace Task2.Data
         public override string ToString()
         {
             return "Book: " + Title + ", author: " + Author + "\n";
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("BookId", BookGuid);
+            info.AddValue("Isbn", Isbn);
+            info.AddValue("Title", Title);
+            info.AddValue("Author", Author);
+            info.AddValue("Description", Description);
         }
     }
 }

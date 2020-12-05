@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Task2.Data
 {
-    public abstract class BookEvent
+    public abstract class BookEvent : ISerializable
     {
+        public Guid BookEventGuid { get; set; }
         public Reader Reader { get; set; }
         public BookState BookState { get; set; }
         public DateTime EventTime { get; set; }
@@ -12,6 +14,7 @@ namespace Task2.Data
         
         protected BookEvent(Reader reader, BookState bookState, DateTime dateTime)
         {
+            BookEventGuid = Guid.NewGuid();
             Reader = reader;
             BookState = bookState;
             EventTime = dateTime;
@@ -19,7 +22,7 @@ namespace Task2.Data
 
         protected BookEvent(Reader reader, BookState bookState) : this(reader, bookState, DateTime.Now)
         {
-
+            BookEventGuid = Guid.NewGuid();
         }
 
         public override bool Equals(object obj)
@@ -42,6 +45,14 @@ namespace Task2.Data
         public override string ToString()
         {
             return "Book event - \n" + Reader + BookState + "Date: " + EventTime + "\n";
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("BookEventId", BookEventGuid);
+            Reader.GetObjectData(info, context);
+            BookState.GetObjectData(info, context);
+            info.AddValue("EventTime", EventTime);
         }
     }
 }
