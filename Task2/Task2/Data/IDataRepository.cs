@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Task1.Data
+namespace Task2.Data
 {
     public interface IDataRepository
     {

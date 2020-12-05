@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Task1.Data;
-using Task1.Logic;
-using Task1Test.DataFiller;
+using Task2.Data;
+using Task2.Logic;
+using Tests.DataFiller;
 using System.Linq;
 using System;
 
-namespace Task1Test.Logic
+namespace Tests.Logic
 {
     [TestClass]
     public class DataServiceTests

@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Task1.Data;
-using Task1Test.DataFiller;
+using Task2.Data;
+using Tests.DataFiller;
 
-namespace Task1Test.Data
+namespace Tests.Data
 {
     [TestClass]
     public class BookEventTests
@@ -15,7 +15,7 @@ namespace Task1Test.Data
         public void SetUp()
         {
             IDataFiller dataFiller = new ConstantFiller();
-            IDataRepository dataRepository = new Task1.Data.DataRepository(dataFiller, dataContext);
+            IDataRepository dataRepository = new DataRepository(dataFiller, dataContext);
             bookEvent1 = new BookRent(dataContext.ReadersList[3], dataContext.BookStatesList[0], new DateTime(2017, 11, 14));
             bookEvent2 = new BookReturn(dataContext.ReadersList[3], dataContext.BookStatesList[0], new DateTime(2017, 11, 14));
         }

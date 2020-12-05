@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Task1.Data;
+using Task2.Data;
 
-namespace Task1Test.Data
+namespace Tests.Data
 {
     [TestClass]
     public class BookStateTests

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Task1.Data;
+using Task2.Data;
 
-namespace Task1.Logic
+namespace Task2.Logic
 {
     public class DataService : IDataService
     {

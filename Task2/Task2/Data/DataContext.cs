@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 
 
-namespace Task1.Data
+namespace Task2.Data
 {
     public class DataContext
     {

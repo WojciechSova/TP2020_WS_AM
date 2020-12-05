@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
-namespace Task1.Data
+namespace Task2.Data
 {
     public class BookReturn : BookEvent
     {
+        [JsonConstructor]
         public BookReturn(Reader reader, BookState bookState) : base(reader, bookState)
         {
             bookState.Available = true;

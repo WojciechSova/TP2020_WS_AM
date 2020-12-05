@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using Task1.Data;
+using Task2.Data;
 
 
-namespace Task1Test.DataFiller
+namespace Tests.DataFiller
 {
     [TestClass]
     public class DataFillerTests

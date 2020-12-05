@@ -1,7 +1,7 @@
 ﻿using System;
-using Task1.Data;
+using Task2.Data;
 
-namespace Task1Test.DataFiller
+namespace Tests.DataFiller
 {
     class ConstantFiller : IDataFiller
     {

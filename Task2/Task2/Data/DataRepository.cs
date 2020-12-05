@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Task1.Data
+namespace Task2.Data
 {
     public class DataRepository : IDataRepository
     {

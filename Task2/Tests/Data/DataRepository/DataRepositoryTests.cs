@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Task1.Data;
-using Task1Test.DataFiller;
+using Task2.Data;
+using Tests.DataFiller;
 
-namespace Task1Test.Data
+namespace Tests.Data
 {
     [TestClass]
     public class DataRepositoryTests
@@ -17,7 +17,7 @@ namespace Task1Test.Data
         [TestInitialize()]
         public void SetUp()
         {
-            dataRepository = new Task1.Data.DataRepository(dataFiller, dataContext);
+            dataRepository = new Task2.Data.DataRepository(dataFiller, dataContext);
         }
 
         #region Reader
