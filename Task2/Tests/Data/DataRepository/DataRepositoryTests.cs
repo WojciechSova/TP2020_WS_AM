@@ -10,7 +10,7 @@ namespace Tests.Data
     [TestClass]
     public class DataRepositoryTests
     {
-        IDataFiller dataFiller = new RandomFiller();
+        IDataFiller dataFiller = new ConstantFiller();
         DataContext dataContext= new DataContext();
         IDataRepository dataRepository;
 
