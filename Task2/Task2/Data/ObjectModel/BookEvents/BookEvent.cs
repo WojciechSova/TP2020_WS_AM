@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace Task2.Data
 {
-    public abstract class BookEvent : ISerializable
+    public abstract class BookEvent
     {
         public Guid BookEventGuid { get; set; }
         public Reader Reader { get; set; }
@@ -47,12 +47,12 @@ namespace Task2.Data
             return "Book event - \n" + Reader + BookState + "Date: " + EventTime + "\n";
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
         {
-            info.AddValue("BookEventId", BookEventGuid);
-            Reader.GetObjectData(info, context);
-            BookState.GetObjectData(info, context);
-            info.AddValue("EventTime", EventTime);
+            info.AddValue("BookEventId_" + index.ToString(), BookEventGuid);
+            Reader.GetObjectData(info, context, index);
+            BookState.GetObjectData(info, context, index);
+            info.AddValue("EventTime_" + index.ToString(), EventTime);
         }
     }
 }

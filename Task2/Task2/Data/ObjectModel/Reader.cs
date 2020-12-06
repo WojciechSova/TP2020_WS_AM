@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace Task2.Data
 {
-    public class Reader : ISerializable
+    public class Reader
     {
         public Guid ReaderGuid { get; set; }
         public string Name { get; set; }
@@ -40,11 +40,11 @@ namespace Task2.Data
             return "Client: " + Name + " " + Surname + ", personal ID: " + PersonalID + "\n";
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
         {
-            info.AddValue("ReaderId", ReaderGuid);
-            info.AddValue("Name", Name);
-            info.AddValue("Surname", Surname);
+            info.AddValue("ReaderId_" + index.ToString(), ReaderGuid);
+            info.AddValue("Name_" + index.ToString(), Name);
+            info.AddValue("Surname_" + index.ToString(), Surname);
         }
     }
 }
