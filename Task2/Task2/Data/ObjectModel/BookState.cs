@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -9,8 +10,9 @@ namespace Task2.Data
         public Guid BookStateGuid { get; set; }
         public Book Book { get; set; }
         public bool Available { get; set; }
-        public DateTime BuyingDate { get; set; }  
+        public DateTime BuyingDate { get; set; }
 
+        [JsonConstructor]
         public BookState(Book book, bool available, DateTime buyingDate)
         {
             this.BookStateGuid = Guid.NewGuid();

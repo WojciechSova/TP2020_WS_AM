@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -11,8 +12,7 @@ namespace Task2.Data
         public string Surname { get; set; }
         public long PersonalID { get; set; }
 
-        public Reader() { }
-
+        [JsonConstructor]
         public Reader(string name, string surname, long personalId)
         {
             this.ReaderGuid = Guid.NewGuid();

@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -13,6 +14,7 @@ namespace Task2.Data
         public string Title { get; set; }
         public string Description { get; set; }
 
+        [JsonConstructor]
         public Book(string isbn, string author, string title, string description)
         {
             this.BookGuid = Guid.NewGuid();
