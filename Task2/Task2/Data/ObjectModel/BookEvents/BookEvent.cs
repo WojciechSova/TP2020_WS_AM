@@ -20,6 +20,14 @@ namespace Task2.Data
             EventTime = dateTime;
         }
 
+        protected BookEvent(string guid, Reader reader, BookState bookState, DateTime dateTime)
+        {
+            BookEventGuid = Guid.Parse(guid);
+            Reader = reader;
+            BookState = bookState;
+            EventTime = dateTime;
+        }
+
         protected BookEvent(Reader reader, BookState bookState) : this(reader, bookState, DateTime.Now)
         {
             BookEventGuid = Guid.NewGuid();
@@ -49,10 +57,10 @@ namespace Task2.Data
 
         public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
         {
-            info.AddValue("BookEventId_" + index.ToString(), BookEventGuid);
+            info.AddValue("BookEventId_" + index.ToString() + "_", BookEventGuid);
             Reader.GetObjectData(info, context, index);
             BookState.GetObjectData(info, context, index);
-            info.AddValue("EventTime_" + index.ToString(), EventTime);
+            info.AddValue("EventTime_" + index.ToString() + "_", EventTime);
         }
     }
 }

@@ -11,12 +11,22 @@ namespace Task2.Data
         public string Surname { get; set; }
         public long PersonalID { get; set; }
 
+        public Reader() { }
+
         public Reader(string name, string surname, long personalId)
         {
             this.ReaderGuid = Guid.NewGuid();
             Name = name;
             Surname = surname;
             PersonalID = personalId;
+        }
+
+        public Reader(String readerGuid, string name, string surname, String personalID)
+        {
+            ReaderGuid = Guid.Parse(readerGuid);
+            Name = name;
+            Surname = surname;
+            PersonalID = Convert.ToInt64(personalID);
         }
 
         public override bool Equals(object obj)
@@ -42,9 +52,10 @@ namespace Task2.Data
 
         public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
         {
-            info.AddValue("ReaderId_" + index.ToString(), ReaderGuid);
-            info.AddValue("Name_" + index.ToString(), Name);
-            info.AddValue("Surname_" + index.ToString(), Surname);
+            info.AddValue("ReaderId_" + index.ToString() + "_", ReaderGuid);
+            info.AddValue("Name_" + index.ToString() + "_", Name);
+            info.AddValue("Surname_" + index.ToString() + "_", Surname);
+            info.AddValue("PersonalId_" + index.ToString() + "_", PersonalID);
         }
     }
 }

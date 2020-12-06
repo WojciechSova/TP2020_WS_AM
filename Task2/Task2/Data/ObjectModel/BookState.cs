@@ -19,6 +19,14 @@ namespace Task2.Data
             BuyingDate = buyingDate;
         }
 
+        public BookState(String guid, Book book, bool available, DateTime buyingDate)
+        {
+            this.BookStateGuid = Guid.Parse(guid);
+            Book = book;
+            Available = available;
+            BuyingDate = buyingDate;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is BookState state &&
@@ -43,10 +51,10 @@ namespace Task2.Data
 
         public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
         {
-            info.AddValue("BookStateId_" + index.ToString(), BookStateGuid);
+            info.AddValue("BookStateId_" + index.ToString() + "_", BookStateGuid);
             Book.GetObjectData(info, context, index);
-            info.AddValue("Available_" + index.ToString(), Available);
-            info.AddValue("BuyingDate_" + index.ToString(), BuyingDate);
+            info.AddValue("Available_" + index.ToString() + "_", Available);
+            info.AddValue("BuyingDate_" + index.ToString() + "_", BuyingDate);
         }
     }
 }

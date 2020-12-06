@@ -3,7 +3,7 @@ using Task2.Data;
 
 namespace Tests.DataFiller
 {
-    class ConstantFiller : IDataFiller
+    public class ConstantFiller : IDataFiller
     {
         public void Fill(DataContext dataContext)
         {

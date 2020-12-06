@@ -34,15 +34,22 @@ namespace Task2.Data
 
         public override object Deserialize(Stream serializationStream)
         {
+            DataContext dataContext;
             using (StreamReader reader = new StreamReader(serializationStream))
             {
-                foreach (XElement element in values)
+                SerializationInfo serializationInfo = new SerializationInfo(typeof(DataContext), new FormatterConverter());
+                string line = reader.ReadLine();
+
+                while(line != null)
                 {
-                    
+                    string[] values = line.Split("_ ");
+                    serializationInfo.AddValue(values[0], values[1]);
+                    line = reader.ReadLine();
                 }
+                dataContext = new DataContext(serializationInfo);
             }
 
-            return new DataContext();
+            return dataContext;
         }
 
 
@@ -93,12 +100,12 @@ namespace Task2.Data
 
         protected override void WriteInt32(int val, string name)
         {
-            throw new NotImplementedException();
+            values.Add(new XElement(name, val));
         }
 
         protected override void WriteInt64(long val, string name)
         {
-            throw new NotImplementedException();
+            values.Add(new XElement(name, val));
         }
 
         protected override void WriteObjectRef(object obj, string name, Type memberType)

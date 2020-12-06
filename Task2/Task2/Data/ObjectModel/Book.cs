@@ -22,6 +22,15 @@ namespace Task2.Data
             Description = description;
         }
 
+        public Book(string guid, string isbn, string author, string title, string description)
+        {
+            this.BookGuid = Guid.Parse(guid);
+            Isbn = isbn;
+            Author = author;
+            Title = title;
+            Description = description;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Book book &&
@@ -48,11 +57,11 @@ namespace Task2.Data
 
         public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
         {
-            info.AddValue("BookId_" + index.ToString(), BookGuid);
-            info.AddValue("Isbn_" + index.ToString(), Isbn);
-            info.AddValue("Title_" + index.ToString(), Title);
-            info.AddValue("Author_" + index.ToString(), Author);
-            info.AddValue("Description_" + index.ToString(), Description);
+            info.AddValue("BookId_" + index.ToString() + "_", BookGuid);
+            info.AddValue("Isbn_" + index.ToString() + "_", Isbn);
+            info.AddValue("Title_" + index.ToString() + "_", Title);
+            info.AddValue("Author_" + index.ToString() + "_", Author);
+            info.AddValue("Description_" + index.ToString() + "_", Description);
         }
     }
 }

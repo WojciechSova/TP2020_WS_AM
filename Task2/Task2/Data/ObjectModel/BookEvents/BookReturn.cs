@@ -16,6 +16,11 @@ namespace Task2.Data
             bookState.Available = true;
         }
 
+        public BookReturn(String guid, Reader reader, BookState bookState, DateTime dateTime) : base(guid, reader, bookState, dateTime)
+        {
+            bookState.Available = true;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is BookReturn && base.Equals(obj);

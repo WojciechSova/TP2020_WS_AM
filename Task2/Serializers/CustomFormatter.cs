@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Linq;
+using Task2.Data;
 
 namespace Serializers
 {
@@ -39,7 +40,7 @@ namespace Serializers
                 Console.WriteLine(reader.Read());
             }
 
-            return new object();
+            return new DataContext();
         }
 
 
