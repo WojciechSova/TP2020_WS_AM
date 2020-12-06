@@ -36,7 +36,7 @@ namespace Task2.Data
 
             for (int i = 0; i < BookEventsLength; i++)
             {
-                if (serializationInfo.GetBoolean("Available_" + i.ToString()))
+                if (serializationInfo.GetString("Type_" + i.ToString()).Equals("Return"))
                 {
                     events.Add(new BookReturn(
                         serializationInfo.GetString("BookEventId_" + i.ToString()),
@@ -79,8 +79,16 @@ namespace Task2.Data
             info.AddValue("BookEventsLength_", BookEventsLength);
             foreach (BookEvent ev in BookEvents)
             {
-               ev.GetObjectData(info, context, index);
-               index++;
+                if (typeof(BookRent) == ev.GetType())
+                {
+                    info.AddValue("Type_" + index.ToString() + "_" , "Rent");
+                }
+                else
+                {
+                    info.AddValue("Type_" +index.ToString() + "_", "Return");
+                }
+                ev.GetObjectData(info, context, index);
+                index++;
             }
         }
     }

@@ -1,30 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Task2.Data;
+using Tests.DataFiller;
 
 namespace ConsoleApp
 {
     class Program
     {
-        static String filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.saved";
         static void Main(string[] args)
         {
             DataContext dataContext = new DataContext();
             IDataFiller dataFiller = new ConstantFiller();
             IDataRepository dataRepository;
-            dataRepository = new Task2.Data.DataRepository(dataFiller, dataContext);
+            dataRepository = new DataRepository(dataFiller, dataContext);
             dataContext.countEvents();
             CustomFormatter customFormatter = new CustomFormatter();    
 
-            using (Stream  stream = new FileStream(filePath, FileMode.Create))
-            {
-                customFormatter.Serialize(stream, dataContext);
-            }
-
-            DataContext dataContext2;
-
-            using (Stream stream = new FileStream(filePath, FileMode.Open))
-            {
-                dataContext2 = (DataContext)customFormatter.Deserialize(stream);
-            }
 
             Console.WriteLine("Wciśnij:");
             Console.WriteLine("1 - by zapisać stan programu w pliku JSON");
@@ -33,14 +25,11 @@ namespace ConsoleApp
             Console.WriteLine("4 - by wczytać stan programu własną metodą");
             Console.WriteLine("5 - by wyświetlić wszystkie dane");
             Console.WriteLine("6 - by wyłączyć program");
-            String option = "0";
-            DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository();
-            String filePath;
+            string option = "0";
+            string filePath;
             while (option != "6")
             {
                 option = Console.ReadLine();
-                Console.WriteLine(option);
                 switch (option)
                 {
                     case "1":
@@ -48,16 +37,22 @@ namespace ConsoleApp
                         JsonSerializer.Serialize(dataContext, filePath);
                         break;
                     case "2":
-
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.saved";
+                        using (Stream stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            customFormatter.Serialize(stream, dataContext);
+                        }
                         break;
                     case "3":
                         filePath = "..\\..\\..\\..\\TestResults\\jsonFile.json";
-                        Console.WriteLine("aaaa3");
                         dataContext = JsonSerializer.Deserialize<DataContext>(filePath);
-                        dataRepository = new DataRepository(dataContext);
-                        Console.WriteLine(dataRepository.GetAllReaders().ToString());
                         break;
                     case "4":
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.saved";
+                        using (Stream stream = new FileStream(filePath, FileMode.Open))
+                        {
+                            dataContext = (DataContext)customFormatter.Deserialize(stream);
+                        }
                         break;
                     case "5":
                         dataContext.ReadersList.ForEach(i => Console.WriteLine(i.ToString()));

@@ -33,8 +33,11 @@ namespace Tests.Serializers
                 dataContext2 = (DataContext)customFormatter.Deserialize(stream);
             }
 
-            Assert.AreEqual(dataContext.BookEvents[1], dataContext2.BookEvents[1]);
-            Assert.AreEqual(dataContext.BookEvents[2], dataContext2.BookEvents[2]);
+            for (int i = 0; i < 6; i++)
+            {
+                Assert.AreEqual(dataContext.BookEvents[i], dataContext2.BookEvents[i]);
+            }
+
         }
     }
 }
