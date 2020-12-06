@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Task2.Data;
+using Tests.DataFiller;
 
 namespace ConsoleApp
 {
@@ -26,7 +30,7 @@ namespace ConsoleApp
                 dataContext2 = (DataContext)customFormatter.Deserialize(stream);
             }
 
-            Console.WriteLine("Wciśnij:");
+           /* Console.WriteLine("Wciśnij:");
             Console.WriteLine("1 - by zapisać stan programu w pliku JSON");
             Console.WriteLine("2 - by zapisać stan programu własną metodą");
             Console.WriteLine("3 - by wczytać stan programu z pliku JSON");
@@ -34,8 +38,6 @@ namespace ConsoleApp
             Console.WriteLine("5 - by wyświetlić wszystkie dane");
             Console.WriteLine("6 - by wyłączyć program");
             String option = "0";
-            DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository();
             String filePath;
             while (option != "6")
             {
@@ -59,7 +61,7 @@ namespace ConsoleApp
                         break;
                     case "4":
                         break;
-                    case "5":
+                    case "5":*/
                         dataContext.ReadersList.ForEach(i => Console.WriteLine(i.ToString()));
                         foreach (KeyValuePair<int, Book> temp in dataContext.BookSet)
                         {
@@ -70,11 +72,11 @@ namespace ConsoleApp
                         {
                             Console.WriteLine(temp.ToString());
                         }
-                        break;
+                       /* break;
                     default:
                         break;
                 }
-            }
+            }*/
 
 
         }
