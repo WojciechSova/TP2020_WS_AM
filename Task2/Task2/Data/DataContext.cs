@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
@@ -29,7 +28,6 @@ namespace Task2.Data
 
         public DataContext(SerializationInfo serializationInfo)
         {
-            Console.WriteLine(serializationInfo.GetString("BookEventId_0"));
             ObservableCollection<BookEvent> events = new ObservableCollection<BookEvent>();
 
             BookEventsLength = serializationInfo.GetInt32("BookEventsLength");
