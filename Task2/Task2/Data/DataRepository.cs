@@ -13,6 +13,11 @@ namespace Task2.Data
             DataContext = new DataContext();
         }
 
+        public DataRepository(DataContext dataContext)
+        {
+            DataContext = dataContext;
+        }
+
         public DataRepository(IDataFiller dataFiller, DataContext dataContext)
         {
             DataContext = dataContext;

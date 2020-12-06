@@ -52,7 +52,7 @@ namespace Task2.Data
 
         public override string ToString()
         {
-            return "Book: " + Title + ", author: " + Author + "\n";
+            return "Book: " + Title + ", Author: " + Author + "\n";
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
