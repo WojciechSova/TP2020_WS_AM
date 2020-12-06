@@ -44,7 +44,7 @@ namespace Task2.Data
 
         public override string ToString()
         {
-            return "Book event - \n" + Reader + BookState + "Date: " + EventTime + "\n";
+            return "Book event - \n" + Reader + BookState.Book + "Date: " + EventTime + "\n";
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context, int index)

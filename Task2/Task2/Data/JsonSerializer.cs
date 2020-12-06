@@ -16,19 +16,19 @@ namespace Task2.Data
 
         public static void Serialize(Object obj, string filePath)
         {
-            using FileStream _file = new FileStream(filePath, FileMode.Create);
+            FileStream file = new FileStream(filePath, FileMode.Create);
             string serialized = JsonConvert.SerializeObject(obj, Formatting.Indented, Settings);
-            _file.Write(Encoding.UTF8.GetBytes(serialized));
-            _file.Flush();
+            file.Write(Encoding.UTF8.GetBytes(serialized));
+            file.Close();
         }
 
         public static T Deserialize<T>(string filePath)
         {
             if (File.Exists(filePath))
             {
-                using FileStream _file = new FileStream(filePath, FileMode.Open);
-                byte[] readedBytes = new byte[_file.Length];
-                _file.Read(readedBytes);
+                FileStream file = new FileStream(filePath, FileMode.Open);
+                byte[] readedBytes = new byte[file.Length];
+                file.Read(readedBytes);
                 return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(readedBytes), Settings);
             }
             return default;

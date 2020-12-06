@@ -38,7 +38,7 @@ namespace Task2.Data
 
         public override string ToString()
         {
-            return Book + " is available: " + Available + " Buying date: " + BuyingDate + "\n";
+            return Book + " is available: " + Available + ", Buying date: " + BuyingDate + "\n";
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context, int index)
