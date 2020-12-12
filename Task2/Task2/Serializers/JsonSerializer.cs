@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace Task2.Data
+namespace Task2.Serializers
 {
     public class JsonSerializer
     {

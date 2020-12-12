@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Task2.DataModel
 {
-    class Bookshelf : ISerializable
+    public class Bookshelf : ISerializable
     {
         private List<Book> Books { get; set; }
         private BookGenres[] BookGenres { get; set; }
