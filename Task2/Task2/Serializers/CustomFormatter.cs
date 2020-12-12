@@ -8,7 +8,7 @@ namespace Task2.Data
 {
     public class CustomFormatter : Formatter
     {
-        private List<XElement> values = new List<XElement>();
+        private List<Object> values = new List<DataHeader>();
         public override void Serialize(Stream serializationStream, object graph)
         {
             ISerializable serializable = (ISerializable)graph;
