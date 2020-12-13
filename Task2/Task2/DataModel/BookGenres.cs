@@ -13,7 +13,7 @@ namespace Task2.DataModel
             Name = name;
         }
 
-        public BookGenres (SerializationInfo serializationInfo)
+        public BookGenres (SerializationInfo serializationInfo, StreamingContext context)
         {
             Name = serializationInfo.GetString("Name");
         }

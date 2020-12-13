@@ -16,10 +16,9 @@ namespace Tests.Serializers
         ClassA classADeserialized;
         ClassB classBDeserialized;
         ClassC classCDeserialized;
-
+        CustomFormatter customFormatter;
         Bookshelf bookshelf;
         Bookshelf bookshelfDeserialized;
-        CustomFormatter customFormatter;
         [TestInitialize]
         public void TestInitialize()
         {
@@ -88,14 +87,14 @@ namespace Tests.Serializers
         }
 
         [TestMethod]
-        public void TestListSerialization()
+        public void SerializerBookshelfTest()
         {
-            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\Bookshelf.txt", FileMode.Create))
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\BookshelfGraph.txt", FileMode.Create))
             {
                 customFormatter.Serialize(fileStream, bookshelf);
             }
 
-            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\Bookshelf.txt", FileMode.Open))
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\BookshelfGraph.txt", FileMode.Open))
             {
                 bookshelfDeserialized = (Bookshelf)customFormatter.Deserialize(fileStream);
             }
@@ -105,7 +104,6 @@ namespace Tests.Serializers
 
             CollectionAssert.AreEqual(bookshelf.Books, bookshelfDeserialized.Books);
             CollectionAssert.AreEqual(bookshelf.BookGenres, bookshelfDeserialized.BookGenres);
-
         }
     }
 }
