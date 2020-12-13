@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Task2.DataModel
 {
     public class Bookshelf : ISerializable
     {
-        private List<Book> Books { get; set; }
-        private BookGenres[] BookGenres { get; set; }
+        public List<Book> Books { get; set; }
+        public BookGenres[] BookGenres { get; set; }
 
+        [JsonConstructor]
         public Bookshelf(List<Book> books, BookGenres[] bookGenres)
         {
             Books = books;
@@ -50,6 +50,19 @@ namespace Task2.DataModel
             {
                 info.AddValue("BookGenres" + i.ToString(), BookGenres[i]);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Bookshelf)obj);
+        }
+
+        protected bool Equals(Bookshelf other)
+        {
+            return Equals(Books, other.Books) && Equals(BookGenres, other.BookGenres);
         }
     }
 }
