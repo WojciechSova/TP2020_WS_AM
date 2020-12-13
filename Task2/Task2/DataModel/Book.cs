@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Task2.DataModel
 {
-    class Book : ISerializable
+    public class Book : ISerializable
     {
         private string Isbn { get; set; }
         private double Ratings { get; set; }

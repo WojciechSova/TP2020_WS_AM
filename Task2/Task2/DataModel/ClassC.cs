@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Task2.DataModel
 {
-    class ClassC : ISerializable
+    public class ClassC : ISerializable
     {
         public string Name { get; set; }
         public DateTime DateTime { get; set; }

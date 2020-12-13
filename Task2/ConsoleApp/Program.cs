@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Task2.Data;
-using Tests.DataFiller;
+using Task2.Serializers;
+using Task2.DataModel;
 
 namespace ConsoleApp
 {
@@ -10,11 +10,24 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            DataContext dataContext = new DataContext();
-            IDataFiller dataFiller = new ConstantFiller();
-            IDataRepository dataRepository;
-            dataRepository = new DataRepository(dataFiller, dataContext);
-            dataContext.countEvents();
+            ClassA classA = new ClassA("classA", DateTime.Now, true);
+            ClassB classB = new ClassB("classB", DateTime.Now, 777);
+            ClassC classC = new ClassC("classC", DateTime.Now);
+
+            classA.ClassB = classB;
+            classA.ClassC = classC;
+            classB.ClassA = classA;
+            classB.ClassC = classC;
+            classC.ClassA = classA;
+            classC.ClassB = classB;
+
+            Bookshelf bookshelf = new Bookshelf(
+                new List<Book> {
+                    new Book("123-456", 9.9), new Book("987-654", 1.1)},
+                new BookGenres[] {
+                    new BookGenres("Drama"), new BookGenres("Action"), new BookGenres("Poetry") }
+                );
+
             CustomFormatter customFormatter = new CustomFormatter();    
 
 

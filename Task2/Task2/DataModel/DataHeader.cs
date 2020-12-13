@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Task2.DataModel
 {
-    class DataHeader
+    public class DataHeader
     {
         private String typeName;
         private String varName;
