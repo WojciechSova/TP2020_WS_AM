@@ -3,11 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
+using Task2.DataModel;
 
 namespace Task2.Data
 {
     public class CustomFormatter : Formatter
     {
+        struct Data{
+            public string className;
+            public string name;
+            public string value;
+            public Data(string classnam, string nam,  string valu)
+            {
+                className = classnam;
+                name = nam;
+                value = valu;
+            }
+            public override string ToString()
+            {
+                return className + "->" + name + "->" + value;
+            }
+        }
+
         private List<Object> values = new List<DataHeader>();
         public override void Serialize(Stream serializationStream, object graph)
         {
