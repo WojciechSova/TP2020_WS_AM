@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Task2.DataModel
 {
     public class Book : ISerializable
     {
-        private string Isbn { get; set; }
-        private double Ratings { get; set; }
+        public string Isbn { get; set; }
+        public double Ratings { get; set; }
 
+        [JsonConstructor]
         public Book(string isbn, double ratings)
         {
             Isbn = isbn;
@@ -26,6 +25,19 @@ namespace Task2.DataModel
         {
             Isbn = serializationInfo.GetString("Isbn");
             Ratings = serializationInfo.GetDouble("Ratings");
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Book)obj);
+        }
+
+        protected bool Equals(Book other)
+        {
+            return Isbn == other.Isbn && Ratings == other.Ratings;
         }
     }
 }
