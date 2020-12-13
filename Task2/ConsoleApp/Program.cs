@@ -34,34 +34,45 @@ namespace ConsoleApp
 
 
             Console.WriteLine("Wciśnij:");
-            Console.WriteLine("1 - by zapisać stan programu w pliku JSON");
-            Console.WriteLine("2 - by zapisać stan programu własną metodą");
-            Console.WriteLine("3 - by wczytać stan programu z pliku JSON");
-            Console.WriteLine("4 - by wczytać stan programu własną metodą");
-            Console.WriteLine("5 - by wyświetlić wszystkie dane");
-            Console.WriteLine("6 - by wyłączyć program");
-            string option = "0";
+            Console.WriteLine("1 - by zapisać stan programu w pliku JSON - ClassA");
+            Console.WriteLine("2 - by zapisać stan programu w pliku JSON - Bookshelf");
+            Console.WriteLine("3 - by zapisać stan programu własną metodą - ClassA");
+            Console.WriteLine("4 - by zapisać stan programu własną metodą - Bookshelf");
+            Console.WriteLine("5 - by wczytać stan programu z pliku JSON - ClassA");
+            Console.WriteLine("6 - by wczytać stan programu z pliku JSON - Bookshelf");
+            Console.WriteLine("7 - by wczytać stan programu własną metodą - ClassA");
+            Console.WriteLine("8 - by wczytać stan programu własną metodą - Bookshelf");
+            Console.WriteLine("9 - by wyłączyć program");
+            string option = "10";
             string filePath;
-            while (option != "6")
+            while (option != "9")
             {
                 option = Console.ReadLine();
                 switch (option)
                 {
-                   /* case "1":
-                        filePath = "..\\..\\..\\..\\TestResults\\jsonFile.json";
-                        JsonSerializer.Serialize(dataContext, filePath);
-                        break;*/
+                    case "1":
+                        filePath = "..\\..\\..\\..\\TestResults\\jsonFileClassA.json";
+                        JsonSerializer.Serialize(classA, filePath);
+                        break;
                     case "2":
+                        filePath = "..\\..\\..\\..\\TestResults\\jsonFileBookshelf.json";
+                        JsonSerializer.Serialize(bookshelf, filePath);
+                        break;
+                    case "3":
                         filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.txt";
                         using (Stream stream = new FileStream(filePath, FileMode.Create))
                         {
                             customFormatter.Serialize(stream, classA);
                         }
                         break;
-                   /* case "3":
-                        filePath = "..\\..\\..\\..\\TestResults\\jsonFile.json";
-                        dataContext = JsonSerializer.Deserialize<DataContext>(filePath);
-                        break;*/
+                    case "5":
+                        filePath = "..\\..\\..\\..\\TestResults\\jsonFileClassA.json";
+                        ClassA classADeserialized = JsonSerializer.Deserialize<ClassA>(filePath);
+                        break;
+                    case "6":
+                        filePath = "..\\..\\..\\..\\TestResults\\jsonFileBookshelf.json";
+                        Bookshelf bookshelfDeserialized = JsonSerializer.Deserialize<Bookshelf>(filePath);
+                        break;
                     case "4":
                         filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.txt";
                         using (Stream stream = new FileStream(filePath, FileMode.Open))
@@ -69,20 +80,8 @@ namespace ConsoleApp
                             ClassA deserialized = (ClassA)customFormatter.Deserialize(stream);
                         }
                         break;
-                   /* case "5":
-                        dataContext.ReadersList.ForEach(i => Console.WriteLine(i.ToString()));
-                        foreach (KeyValuePair<int, Book> temp in dataContext.BookSet)
-                        {
-                            Console.WriteLine(temp.ToString());
-                        }
-                        dataContext.BookStatesList.ForEach(i => Console.WriteLine(i.ToString()));
-                        foreach (var temp in dataContext.BookEvents)
-                        {
-                            Console.WriteLine(temp.ToString());
-                        }
-                        break;
                     default:
-                        break;*/
+                        break;
                 }
             }
 
