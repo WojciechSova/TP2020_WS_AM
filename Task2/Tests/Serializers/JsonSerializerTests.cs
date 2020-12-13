@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using Task2.Data;
 using Task2.DataModel;
 using Task2.Serializers;
 
@@ -20,9 +19,9 @@ namespace Tests.Serializers
         [TestInitialize]
         public void TestInitialize()
         {
-            classA = new ClassA("claaasdassA", DateTime.Now, true);
-            classB = new ClassB("cldsadsaassB", DateTime.Now, 777.2);
-            classC = new ClassC("dsadsadsa", DateTime.Now);
+            classA = new ClassA("claaasdassA", 2684132, true);
+            classB = new ClassB("cldsadsaassB", 13216549, 777.2);
+            classC = new ClassC("dsadsadsa", 1354987);
 
             classA.ClassB = classB;
             classA.ClassC = classC;
@@ -52,12 +51,12 @@ namespace Tests.Serializers
             Assert.AreNotSame(classA, classADeserialized);
 
             Assert.AreEqual(classA.Name, classADeserialized.Name);
-            Assert.AreEqual(classA.DateTime, classADeserialized.DateTime);
+            Assert.AreEqual(classA.Number, classADeserialized.Number);
             Assert.AreEqual(classA.Available, classADeserialized.Available);
             Assert.AreEqual(classA.ClassB.Name, classADeserialized.ClassB.Name);
-            Assert.AreEqual(classA.ClassB.DateTime, classADeserialized.ClassB.DateTime);
+            Assert.AreEqual(classA.ClassB.Number, classADeserialized.ClassB.Number);
             Assert.AreEqual(classA.ClassB.Amount, classADeserialized.ClassB.Amount);
-            Assert.AreEqual(classA.ClassC.DateTime, classADeserialized.ClassC.DateTime);
+            Assert.AreEqual(classA.ClassC.Number, classADeserialized.ClassC.Number);
             Assert.AreEqual(classA.ClassC.Name, classADeserialized.ClassC.Name);
         }
 

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Task2.DataModel
 {
-    [Serializable]
     public class ClassC : ISerializable
     {
         public string Name { get; set; }
@@ -13,6 +10,7 @@ namespace Task2.DataModel
         public ClassA ClassA { get; set; }
         public ClassB ClassB { get; set; }
 
+        [JsonConstructor]
         public ClassC(string name, long number, ClassA classA, ClassB classB)
         {
             Name = name;
