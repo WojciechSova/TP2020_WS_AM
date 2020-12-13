@@ -153,9 +153,6 @@ namespace Task2.Data
         {
             switch (type.ToString())
             {
-                case "System.DateTime":
-                    serializationInfo.AddValue(name, DateTime.Parse(val, null, DateTimeStyles.AssumeLocal));
-                    break;
                 case "System.String":
                     serializationInfo.AddValue(name, val);
                     break;
@@ -164,6 +161,9 @@ namespace Task2.Data
                     break;
                 case "System.Boolean":
                     serializationInfo.AddValue(name, Boolean.Parse(val));
+                    break;
+                case "System.Int64":
+                    serializationInfo.AddValue(name, Int64.Parse(val));
                     break;
             }
         }
@@ -183,11 +183,6 @@ namespace Task2.Data
         protected override void WriteBoolean(bool val, string name)
         {
             Values.Add(new Data(val.GetType().ToString(), name, val.ToString()));
-        }
-
-        protected override void WriteDateTime(DateTime val, string name)
-        {
-            Values.Add(new Data(val.GetType().ToString(), name, val.ToLocalTime().ToString("o")));
         }
 
         protected override void WriteDouble(double val, string name)
@@ -233,6 +228,11 @@ namespace Task2.Data
         public override ISurrogateSelector SurrogateSelector { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         protected override void WriteByte(byte val, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void WriteDateTime(DateTime val, string name)
         {
             throw new NotImplementedException();
         }

@@ -9,22 +9,22 @@ namespace Task2.DataModel
     public class ClassC : ISerializable
     {
         public string Name { get; set; }
-        public DateTime DateTime { get; set; }
+        public long Number { get; set; }
         public ClassA ClassA { get; set; }
         public ClassB ClassB { get; set; }
 
-        public ClassC(string name, DateTime dateTime, ClassA classA, ClassB classB)
+        public ClassC(string name, long number, ClassA classA, ClassB classB)
         {
             Name = name;
-            DateTime = dateTime;
+            Number = number;
             ClassA = classA;
             ClassB = classB;
         }
 
-        public ClassC(string name, DateTime dateTime)
+        public ClassC(string name, long number)
         {
             Name = name;
-            DateTime = dateTime;
+            Number = number;
         }
 
         public ClassC()
@@ -34,7 +34,7 @@ namespace Task2.DataModel
         public ClassC(SerializationInfo serializationInfo, StreamingContext context)
         {
             Name = serializationInfo.GetString("Name");
-            DateTime = serializationInfo.GetDateTime("DateTime");
+            Number = serializationInfo.GetInt64("Number");
           
             ClassA = (ClassA)serializationInfo.GetValue("ClassA", typeof(ClassA));
             ClassB = (ClassB)serializationInfo.GetValue("ClassB", typeof(ClassB));
@@ -43,7 +43,7 @@ namespace Task2.DataModel
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Name", Name);
-            info.AddValue("DateTime", DateTime);
+            info.AddValue("Number", Number);
             info.AddValue("ClassA", ClassA);
             info.AddValue("ClassB", ClassB);
         }

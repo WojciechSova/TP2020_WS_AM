@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Task2.Serializers;
 using Task2.DataModel;
+using Task2.Data;
+using System.Globalization;
 
 namespace ConsoleApp
 {
@@ -10,9 +12,9 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-           /* ClassA classA = new ClassA("classA", DateTime.Now, true);
-            ClassB classB = new ClassB("classB", DateTime.Now, 777);
-            ClassC classC = new ClassC("classC", DateTime.Now);
+            ClassA classA = new ClassA("classA", 789654, true);
+            ClassB classB = new ClassB("classB", 123456897, 777);
+            ClassC classC = new ClassC("classC", 98765188);
 
             classA.ClassB = classB;
             classA.ClassC = classC;
@@ -45,29 +47,29 @@ namespace ConsoleApp
                 option = Console.ReadLine();
                 switch (option)
                 {
-                    case "1":
+                   /* case "1":
                         filePath = "..\\..\\..\\..\\TestResults\\jsonFile.json";
                         JsonSerializer.Serialize(dataContext, filePath);
-                        break;
+                        break;*/
                     case "2":
-                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.saved";
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.txt";
                         using (Stream stream = new FileStream(filePath, FileMode.Create))
                         {
-                            customFormatter.Serialize(stream, dataContext);
+                            customFormatter.Serialize(stream, classA);
                         }
                         break;
-                    case "3":
+                   /* case "3":
                         filePath = "..\\..\\..\\..\\TestResults\\jsonFile.json";
                         dataContext = JsonSerializer.Deserialize<DataContext>(filePath);
-                        break;
+                        break;*/
                     case "4":
-                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.saved";
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.txt";
                         using (Stream stream = new FileStream(filePath, FileMode.Open))
                         {
-                            dataContext = (DataContext)customFormatter.Deserialize(stream);
+                            ClassA deserialized = (ClassA)customFormatter.Deserialize(stream);
                         }
                         break;
-                    case "5":
+                   /* case "5":
                         dataContext.ReadersList.ForEach(i => Console.WriteLine(i.ToString()));
                         foreach (KeyValuePair<int, Book> temp in dataContext.BookSet)
                         {
@@ -80,9 +82,9 @@ namespace ConsoleApp
                         }
                         break;
                     default:
-                        break;
+                        break;*/
                 }
-            }*/
+            }
 
 
         }
