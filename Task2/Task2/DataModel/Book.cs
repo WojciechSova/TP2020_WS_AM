@@ -21,6 +21,7 @@ namespace Task2.DataModel
             info.AddValue("Ratings", Ratings);
         }
 
+
         public Book (SerializationInfo serializationInfo)
         {
             Isbn = serializationInfo.GetString("Isbn");
@@ -29,15 +30,9 @@ namespace Task2.DataModel
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Book)obj);
-        }
-
-        protected bool Equals(Book other)
-        {
-            return Isbn == other.Isbn && Ratings == other.Ratings;
+            return obj is Book book &&
+                   Isbn == book.Isbn &&
+                   Ratings == book.Ratings;
         }
     }
 }

@@ -54,15 +54,9 @@ namespace Task2.DataModel
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Bookshelf)obj);
-        }
-
-        protected bool Equals(Bookshelf other)
-        {
-            return Equals(Books, other.Books) && Equals(BookGenres, other.BookGenres);
+            return obj is Bookshelf bookshelf &&
+                   EqualityComparer<List<Book>>.Default.Equals(Books, bookshelf.Books) &&
+                   EqualityComparer<BookGenres[]>.Default.Equals(BookGenres, bookshelf.BookGenres);
         }
     }
 }
