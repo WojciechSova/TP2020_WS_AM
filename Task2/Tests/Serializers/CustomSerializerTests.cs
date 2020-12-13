@@ -50,6 +50,18 @@ namespace Tests.Serializers
                 customFormatter.Serialize(fileStream, classA);
             }
 
+            using (FileStream fileStream = new FileStream("ClassAGraph.txt", FileMode.Open))
+            {
+                classADeserialized = (ClassA)customFormatter.Deserialize(fileStream);
+            }
+
+            Assert.IsNotNull(classADeserialized);
+            Assert.AreNotSame(classA, classADeserialized);
+
+            Assert.AreEqual(classA.Name, classADeserialized.Name);
+            Assert.AreEqual(classA.Available, classADeserialized.Available);
+            Assert.AreEqual(classA.Number, classADeserialized.Number);
+
         }
 
         [TestMethod]
@@ -60,35 +72,17 @@ namespace Tests.Serializers
                 customFormatter.Serialize(fileStream, classC);
             }
 
-        }
-
-        [TestMethod]
-        public void TestGraphDeserializationClassA()
-        {
-            using (FileStream fileStream = new FileStream("ClassAGraph.txt", FileMode.Open))
-            {
-                classADeserialized = (ClassA) customFormatter.Deserialize(fileStream);
-            }
-            Assert.IsNotNull(classADeserialized);
-            Assert.AreNotSame(classA, classADeserialized);
-
-            Assert.AreEqual(classA.Name, classADeserialized.Name);
-            Assert.AreEqual(classA.Available, classADeserialized.Available);
-            Assert.AreEqual(classA.Number, classADeserialized.Number);
-        }
-
-        [TestMethod]
-        public void TestGraphDeserializationClassC()
-        {
             using (FileStream fileStream = new FileStream("ClassCGraph.txt", FileMode.Open))
             {
                 classCDeserialized = (ClassC)customFormatter.Deserialize(fileStream);
             }
+
             Assert.IsNotNull(classCDeserialized);
             Assert.AreNotSame(classC, classCDeserialized);
 
             Assert.AreEqual(classC.Name, classCDeserialized.Name);
             Assert.AreEqual(classC.Number, classCDeserialized.Number);
+
         }
     }
 }
