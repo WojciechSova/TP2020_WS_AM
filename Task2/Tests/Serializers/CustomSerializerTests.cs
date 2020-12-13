@@ -21,9 +21,9 @@ namespace Tests.Serializers
         [TestInitialize]
         public void TestInitialize()
         {
-            classA = new ClassA("classA", DateTime.Now, true);
-            classB = new ClassB("classB", DateTime.Now, 777);
-            classC = new ClassC("classC", DateTime.Now);
+            classA = new ClassA("claaasdassA", DateTime.Now, true);
+            classB = new ClassB("cldsadsaassB", DateTime.Now, 777.2);
+            classC = new ClassC("dsadsadsa", DateTime.Now);
 
             classA.ClassB = classB;
             classA.ClassC = classC;
@@ -45,7 +45,7 @@ namespace Tests.Serializers
         [TestMethod]
         public void TestGraphSerializationClassA()
         {
-            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassAGraph.txt", FileMode.Create))
+            using (FileStream fileStream = new FileStream("ClassAGraph.txt", FileMode.Create))
             {
                 customFormatter.Serialize(fileStream, classA);
             }
@@ -55,12 +55,15 @@ namespace Tests.Serializers
         [TestMethod]
         public void TestGraphDeserializationClassA()
         {
-            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassAGraph.txt", FileMode.Open))
+            using (FileStream fileStream = new FileStream("ClassAGraph.txt", FileMode.Open))
             {
                 classADeserialized = (ClassA) customFormatter.Deserialize(fileStream);
             }
             Assert.IsNotNull(classADeserialized);
             Assert.AreNotSame(classA, classADeserialized);
+
+            Assert.AreEqual(classA.Name, classADeserialized.Name);
+            Assert.AreEqual(classA.Available, classADeserialized.Available);
         }
     }
 }

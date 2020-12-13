@@ -5,19 +5,18 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Xml.Linq;
-using Task2.DataModel;
 using Task2.Serializers;
 
 namespace Task2.Data
 {
     public class CustomFormatter : Formatter
     {
-        struct Data{
+        struct Data
+        {
             public string className;
             public string name;
             public string value;
-            public Data(string classnam, string nam,  string valu)
+            public Data(string classnam, string nam, string valu)
             {
                 className = classnam;
                 name = nam;
@@ -34,11 +33,8 @@ namespace Task2.Data
         List<Data> Values = new List<Data>();
         List<Object> SerializedObjects = new List<Object>();
         List<Object> AllObjects = new List<Object>();
-        Dictionary<string, Object> RefToObjects = new Dictionary<string, object>();
-        
-        
-        
-        
+        Dictionary<string, object> RefToObjects = new Dictionary<string, object>();
+
         public override void Serialize(Stream serializationStream, object graph)
         {
             ISerializable serializable = (ISerializable)graph;
@@ -61,7 +57,7 @@ namespace Task2.Data
             }
             fileContent.Append("$\n");
 
-            using (StreamWriter writer = new StreamWriter(serializationStream, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(serializationStream, Encoding.UTF8, 32, true))
             {
                 writer.Write(fileContent.ToString());
             }
@@ -82,86 +78,78 @@ namespace Task2.Data
         {
             List<string> ObjectsInString = new List<string>();
             List<Object> Objects = new List<object>();
-            
-            using (StreamReader reader = new StreamReader(serializationStream, Encoding.UTF8, false, 32, true))
+            if (serializationStream != null)
             {
-                string data = reader.ReadToEnd();
-                string[] objs = data.Split('$');
-                foreach (string obj in objs)
+                using (StreamReader reader = new StreamReader(serializationStream, Encoding.UTF8, false, 32, true))
                 {
-                    ObjectsInString.Add(obj);
-                }
-            }
-
-            foreach (string obj in ObjectsInString)
-            {
-                String[] objectProperties = obj.Split('\n');
-                if (objectProperties[0] == "")
-                {
-                    List<String> buff = objectProperties.OfType<String>().ToList();
-                    buff.RemoveAt(0);
-                    objectProperties = buff.ToArray();
-                }
-
-                string[] objectAtrribute = objectProperties[0].Split("->");
-                /*if (objectAtrribute.Length != 3)
-                {
-                    continue;
-                }*/
-
-                RefToObjects.Add(
-                    objectAtrribute[2], FormatterServices.GetSafeUninitializedObject(CustomBinder.BindToType(objectAtrribute[0], objectAtrribute[1])));
-            }
-
-            foreach (string obj in ObjectsInString)
-            {
-                String[] objectProperties = obj.Split('\n');
-                if (objectProperties[0] == "")
-                {
-                    List<String> buff = objectProperties.OfType<String>().ToList();
-                    buff.RemoveAt(0);
-                    objectProperties = buff.ToArray();
-                }
-
-                string[] objectAtrribute = objectProperties[0].Split("->");
-                /*                if (objAtr.Length != 3)
-                                {
-                                    continue;
-                                }*/
-
-
-                Type objType = CustomBinder.BindToType(objectAtrribute[0], objectAtrribute[1]);
-                SerializationInfo serializationInfo = new SerializationInfo(objType, new FormatterConverter());
-                StreamingContext streamingContext = new StreamingContext(StreamingContextStates.File);
-
-                for (int i = 1; i < objectProperties.Length; i++)
-                {
-                    string[] objectAttributes = objectProperties[i].Split("->");
-                    Type atrributeType = CustomBinder.BindToType(objectAtrribute[0], objectAttributes[0]);
-                    if (atrributeType == null)
+                    string data = reader.ReadToEnd();
+                    string[] objs = data.Split('$');
+                    foreach (string obj in objs)
                     {
-                        SerializeUnknownType(serializationInfo, Type.GetType(objectAttributes[0]), objectAttributes[1], objectAttributes[2]);
-                    }
-                    else
-                    {
-                        serializationInfo.AddValue(objectAttributes[1], RefToObjects[objectAttributes[2]], atrributeType);
+                        ObjectsInString.Add(obj);
                     }
                 }
 
-                // Tworzę listę typów parametrów konstruktora obiektu
-                Type[] constructorTypes = { serializationInfo.GetType(), streamingContext.GetType() };
-                // tworzę listę argumentów konstruktora
-                object[] constructorArguments = { serializationInfo, streamingContext };
-                // tworzę obiekt
-                RefToObjects[objectAtrribute[2]].GetType().GetConstructor(constructorTypes)
-                    .Invoke(RefToObjects[objectAtrribute[2]], constructorArguments);
-                Objects.Add(RefToObjects[objectAtrribute[2]]);
-            }
+                foreach (string obj in ObjectsInString)
+                {
+                    string[] objectProperties = obj.Split('\n');
+                    if (objectProperties[0] == "")
+                    {
+                        List<String> tmp = objectProperties.OfType<String>().ToList();
+                        tmp.RemoveAt(0);
+                        objectProperties = tmp.ToArray();
+                    }
 
+                    string[] objectAtrribute = objectProperties[0].Split("->");
+                    if (objectAtrribute.Length != 3)
+                        continue;
+
+                    RefToObjects.Add(
+                        objectAtrribute[2], FormatterServices.GetSafeUninitializedObject(CustomBinder.BindToType(objectAtrribute[0], objectAtrribute[1])));
+                }
+
+                foreach (string obj in ObjectsInString)
+                {
+                    string[] objectProperties = obj.Split('\n');
+                    if (objectProperties[0] == "")
+                    {
+                        List<String> tmp = objectProperties.OfType<String>().ToList();
+                        tmp.RemoveAt(0);
+                        objectProperties = tmp.ToArray();
+                    }
+
+                    string[] objectAtrribute = objectProperties[0].Split("->");
+                    if (objectAtrribute.Length != 3)
+                        continue;
+
+                    Type objType = CustomBinder.BindToType(objectAtrribute[0], objectAtrribute[1]);
+                    SerializationInfo serializationInfo = new SerializationInfo(objType, new FormatterConverter());
+                    StreamingContext streamingContext = new StreamingContext(StreamingContextStates.File);
+
+                    for (int i = 1; i < objectProperties.Length; i++)
+                    {
+                        string[] objectAttributes = objectProperties[i].Split("->");
+                        Type atrributeType = CustomBinder.BindToType(objectAtrribute[0], objectAttributes[0]);
+                        if (atrributeType == null)
+                        {
+                            DeSerializeUnknownType(serializationInfo, Type.GetType(objectAttributes[0]), objectAttributes[1], objectAttributes[2]);
+                        }
+                        else
+                        {
+                            serializationInfo.AddValue(objectAttributes[1], RefToObjects[objectAttributes[2]], atrributeType);
+                        }
+                    }
+
+                    Type[] constructorTypes = { serializationInfo.GetType(), streamingContext.GetType() };
+                    object[] constructorArguments = { serializationInfo, streamingContext };
+                    RefToObjects[objectAtrribute[2]].GetType().GetConstructor(constructorTypes).Invoke(RefToObjects[objectAtrribute[2]], constructorArguments);
+                    Objects.Add(RefToObjects[objectAtrribute[2]]);
+                }
+            }
             return Objects[0];
         }
 
-        private void SerializeUnknownType(SerializationInfo serializationInfo, Type type, string name, string val)
+        private void DeSerializeUnknownType(SerializationInfo serializationInfo, Type type, string name, string val)
         {
             switch (type.ToString())
             {
@@ -180,9 +168,7 @@ namespace Task2.Data
             }
         }
 
-        public override SerializationBinder Binder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override StreamingContext Context { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override ISurrogateSelector SurrogateSelector { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
 
         protected override void WriteArray(object obj, string name, Type memberType)
         {
@@ -242,6 +228,9 @@ namespace Task2.Data
         }
 
         #region NotImplemented
+        public override SerializationBinder Binder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override StreamingContext Context { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override ISurrogateSelector SurrogateSelector { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         protected override void WriteByte(byte val, string name)
         {

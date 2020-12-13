@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Task2.DataModel
 {
+    [Serializable]
     public class ClassC : ISerializable
     {
         public string Name { get; set; }
@@ -26,7 +27,11 @@ namespace Task2.DataModel
             DateTime = dateTime;
         }
 
-        public ClassC(SerializationInfo serializationInfo)
+        public ClassC()
+        {
+        }
+
+        public ClassC(SerializationInfo serializationInfo, StreamingContext context)
         {
             Name = serializationInfo.GetString("Name");
             DateTime = serializationInfo.GetDateTime("DateTime");

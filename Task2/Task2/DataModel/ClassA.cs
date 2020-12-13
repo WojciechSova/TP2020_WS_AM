@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
 namespace Task2.DataModel
 {
-     public class ClassA : ISerializable
+    [Serializable]
+    [JsonObject]
+    public class ClassA : ISerializable
     {
         public string Name { get; set; }
         public DateTime DateTime { get; set; }
@@ -29,7 +32,11 @@ namespace Task2.DataModel
             Available = available;
         }
 
-        public ClassA(SerializationInfo serializationInfo)
+        public ClassA()
+        {
+        }
+
+        public ClassA(SerializationInfo serializationInfo, StreamingContext context)
         {
             Name = serializationInfo.GetString("Name");
             DateTime = serializationInfo.GetDateTime("DateTime");
