@@ -17,13 +17,13 @@ namespace Tests.Serializers
         ClassA classADeserialized;
         ClassB classBDeserialized;
         ClassC classCDeserialized;
-        CustomFormatter customFormatter;
+        CustomFormatter customFormatter = new CustomFormatter();
         [TestInitialize]
         public void TestInitialize()
         {
-            ClassA classA = new ClassA("classA", DateTime.Now, true);
-            ClassB classB = new ClassB("classB", DateTime.Now, 777);
-            ClassC classC = new ClassC("classC", DateTime.Now);
+            classA = new ClassA("classA", DateTime.Now, true);
+            classB = new ClassB("classB", DateTime.Now, 777);
+            classC = new ClassC("classC", DateTime.Now);
 
             classA.ClassB = classB;
             classA.ClassC = classC;
@@ -39,17 +39,28 @@ namespace Tests.Serializers
                     new BookGenres("Drama"), new BookGenres("Action"), new BookGenres("Poetry") }
                 );
 
-            customFormatter = new CustomFormatter();
+            
         }
 
         [TestMethod]
-        public void TestGraphSerializationClass1()
+        public void TestGraphSerializationClassA()
         {
             using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassAGraph.txt", FileMode.Create))
             {
                 customFormatter.Serialize(fileStream, classA);
             }
 
+        }
+
+        [TestMethod]
+        public void TestGraphDeserializationClassA()
+        {
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassAGraph.txt", FileMode.Open))
+            {
+                classADeserialized = (ClassA) customFormatter.Deserialize(fileStream);
+            }
+            Assert.IsNotNull(classADeserialized);
+            Assert.AreNotSame(classA, classADeserialized);
         }
     }
 }

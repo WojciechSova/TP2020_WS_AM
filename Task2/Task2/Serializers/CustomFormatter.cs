@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Linq;
@@ -78,26 +80,105 @@ namespace Task2.Data
 
         public override object Deserialize(Stream serializationStream)
         {
-            /*            DataContext dataContext;
-                        using (StreamReader reader = new StreamReader(serializationStream))
-                        {
-                            SerializationInfo serializationInfo = new SerializationInfo(typeof(DataContext), new FormatterConverter());
-                            string line = reader.ReadLine();
+            List<string> ObjectsInString = new List<string>();
+            List<Object> Objects = new List<object>();
+            
+            using (StreamReader reader = new StreamReader(serializationStream, Encoding.UTF8, false, 32, true))
+            {
+                string data = reader.ReadToEnd();
+                string[] objs = data.Split('$');
+                foreach (string obj in objs)
+                {
+                    ObjectsInString.Add(obj);
+                }
+            }
 
-                            while(line != null)
-                            {
-                                string[] values = line.Split("_ ");
-                                serializationInfo.AddValue(values[0], values[1]);
-                                line = reader.ReadLine();
-                            }
-                            dataContext = new DataContext(serializationInfo);
-                        }
+            foreach (string obj in ObjectsInString)
+            {
+                String[] objectProperties = obj.Split('\n');
+                if (objectProperties[0] == "")
+                {
+                    List<String> buff = objectProperties.OfType<String>().ToList();
+                    buff.RemoveAt(0);
+                    objectProperties = buff.ToArray();
+                }
 
-                        return dataContext;*/
-            return default;
+                string[] objectAtrribute = objectProperties[0].Split("->");
+                /*if (objectAtrribute.Length != 3)
+                {
+                    continue;
+                }*/
+
+                RefToObjects.Add(
+                    objectAtrribute[2], FormatterServices.GetSafeUninitializedObject(CustomBinder.BindToType(objectAtrribute[0], objectAtrribute[1])));
+            }
+
+            foreach (string obj in ObjectsInString)
+            {
+                String[] objectProperties = obj.Split('\n');
+                if (objectProperties[0] == "")
+                {
+                    List<String> buff = objectProperties.OfType<String>().ToList();
+                    buff.RemoveAt(0);
+                    objectProperties = buff.ToArray();
+                }
+
+                string[] objectAtrribute = objectProperties[0].Split("->");
+                /*                if (objAtr.Length != 3)
+                                {
+                                    continue;
+                                }*/
+
+
+                Type objType = CustomBinder.BindToType(objectAtrribute[0], objectAtrribute[1]);
+                SerializationInfo serializationInfo = new SerializationInfo(objType, new FormatterConverter());
+                StreamingContext streamingContext = new StreamingContext(StreamingContextStates.File);
+
+                for (int i = 1; i < objectProperties.Length; i++)
+                {
+                    string[] objectAttributes = objectProperties[i].Split("->");
+                    Type atrributeType = CustomBinder.BindToType(objectAtrribute[0], objectAttributes[0]);
+                    if (atrributeType == null)
+                    {
+                        SerializeUnknownType(serializationInfo, Type.GetType(objectAttributes[0]), objectAttributes[1], objectAttributes[2]);
+                    }
+                    else
+                    {
+                        serializationInfo.AddValue(objectAttributes[1], RefToObjects[objectAttributes[2]], atrributeType);
+                    }
+                }
+
+                // Tworzę listę typów parametrów konstruktora obiektu
+                Type[] constructorTypes = { serializationInfo.GetType(), streamingContext.GetType() };
+                // tworzę listę argumentów konstruktora
+                object[] constructorArguments = { serializationInfo, streamingContext };
+                // tworzę obiekt
+                RefToObjects[objectAtrribute[2]].GetType().GetConstructor(constructorTypes)
+                    .Invoke(RefToObjects[objectAtrribute[2]], constructorArguments);
+                Objects.Add(RefToObjects[objectAtrribute[2]]);
+            }
+
+            return Objects[0];
         }
 
-
+        private void SerializeUnknownType(SerializationInfo serializationInfo, Type type, string name, string val)
+        {
+            switch (type.ToString())
+            {
+                case "System.DateTime":
+                    serializationInfo.AddValue(name, DateTime.Parse(val, null, DateTimeStyles.AssumeLocal));
+                    break;
+                case "System.String":
+                    serializationInfo.AddValue(name, val);
+                    break;
+                case "System.Double":
+                    serializationInfo.AddValue(name, Double.Parse(val));
+                    break;
+                case "System.Boolean":
+                    serializationInfo.AddValue(name, Boolean.Parse(val));
+                    break;
+            }
+        }
 
         public override SerializationBinder Binder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override StreamingContext Context { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -125,7 +206,7 @@ namespace Task2.Data
 
         protected override void WriteDouble(double val, string name)
         {
-            Values.Add(new Data(val.GetType().ToString(), name, val.ToString().Replace(",", ".")));
+            Values.Add(new Data(val.GetType().ToString(), name, val.ToString()));
         }
 
         protected override void WriteInt32(int val, string name)
