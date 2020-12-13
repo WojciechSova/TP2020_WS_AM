@@ -16,7 +16,7 @@ namespace Task2.DataModel
             BookGenres = bookGenres;
         }
 
-        public Bookshelf(SerializationInfo serializationInfo)
+        public Bookshelf(SerializationInfo serializationInfo, StreamingContext context)
         {
             int BooksNumber = serializationInfo.GetInt32("BooksNumber");
             int GenresNumber = serializationInfo.GetInt32("GenresNumber");
@@ -43,7 +43,7 @@ namespace Task2.DataModel
 
             for (int i = 0; i < Books.Count; i++)
             {
-                info.AddValue("Boook" + i.ToString(), Books[i]);
+                info.AddValue("Book" + i.ToString(), Books[i]);
 
             }
             for (int i = 0; i < BookGenres.Length; i++)

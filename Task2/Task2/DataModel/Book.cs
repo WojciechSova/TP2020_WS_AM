@@ -22,7 +22,7 @@ namespace Task2.DataModel
         }
 
 
-        public Book (SerializationInfo serializationInfo)
+        public Book (SerializationInfo serializationInfo, StreamingContext context)
         {
             Isbn = serializationInfo.GetString("Isbn");
             Ratings = serializationInfo.GetDouble("Ratings");

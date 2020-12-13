@@ -28,10 +28,6 @@ namespace Task2.DataModel
             Available = available;
         }
 
-        public ClassA()
-        {
-        }
-
         public ClassA(SerializationInfo serializationInfo, StreamingContext context)
         {
             Name = serializationInfo.GetString("Name");

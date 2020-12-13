@@ -28,10 +28,6 @@ namespace Task2.DataModel
             Amount = amount;
         }
 
-        public ClassB()
-        {
-        }
-
         public ClassB(SerializationInfo serializationInfo, StreamingContext context)
         {
             Name = serializationInfo.GetString("Name");

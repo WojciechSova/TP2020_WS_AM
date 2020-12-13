@@ -162,6 +162,9 @@ namespace Task2.Data
                 case "System.Boolean":
                     serializationInfo.AddValue(name, Boolean.Parse(val));
                     break;
+                case "System.Int32":
+                    serializationInfo.AddValue(name, Int32.Parse(val));
+                    break;
                 case "System.Int64":
                     serializationInfo.AddValue(name, Int64.Parse(val));
                     break;

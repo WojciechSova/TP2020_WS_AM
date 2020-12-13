@@ -25,10 +25,6 @@ namespace Task2.DataModel
             Number = number;
         }
 
-        public ClassC()
-        {
-        }
-
         public ClassC(SerializationInfo serializationInfo, StreamingContext context)
         {
             Name = serializationInfo.GetString("Name");
