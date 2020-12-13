@@ -10,7 +10,7 @@ namespace Tests.Serializers
     [TestClass]
     public class JsonSerializerTests
     {
-        ClassA classA;
+        /*ClassA classA;
         ClassB classB;
         ClassC classC;
         ClassA classADeserialized;
@@ -75,7 +75,7 @@ namespace Tests.Serializers
 
             CollectionAssert.AreEqual(bookshelf.Books, bookshelfDeserialized.Books);
             CollectionAssert.AreEqual(bookshelf.BookGenres, bookshelfDeserialized.BookGenres);
-        }
+        }*/
 
 
 
