@@ -16,6 +16,9 @@ namespace Tests.Serializers
         ClassA classADeserialized;
         ClassB classBDeserialized;
         ClassC classCDeserialized;
+
+        Bookshelf bookshelf;
+        Bookshelf bookshelfDeserialized;
         CustomFormatter customFormatter;
         [TestInitialize]
         public void TestInitialize()
@@ -31,7 +34,7 @@ namespace Tests.Serializers
             classC.ClassA = classA;
             classC.ClassB = classB;
 
-            Bookshelf bookshelf = new Bookshelf(
+            bookshelf = new Bookshelf(
                 new List<Book> {
                     new Book("123-456", 9.9), new Book("987-654", 1.1)},
                 new BookGenres[] {
@@ -81,6 +84,27 @@ namespace Tests.Serializers
 
             Assert.AreEqual(classC.Name, classCDeserialized.Name);
             Assert.AreEqual(classC.Number, classCDeserialized.Number);
+
+        }
+
+        [TestMethod]
+        public void TestListSerialization()
+        {
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\Bookshelf.txt", FileMode.Create))
+            {
+                customFormatter.Serialize(fileStream, bookshelf);
+            }
+
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\Bookshelf.txt", FileMode.Open))
+            {
+                bookshelfDeserialized = (Bookshelf)customFormatter.Deserialize(fileStream);
+            }
+
+            Assert.IsNotNull(bookshelfDeserialized);
+            Assert.AreNotSame(bookshelf, bookshelfDeserialized);
+
+            CollectionAssert.AreEqual(bookshelf.Books, bookshelfDeserialized.Books);
+            CollectionAssert.AreEqual(bookshelf.BookGenres, bookshelfDeserialized.BookGenres);
 
         }
     }
