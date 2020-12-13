@@ -10,7 +10,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            ClassA classA = new ClassA("classA", DateTime.Now, true);
+           /* ClassA classA = new ClassA("classA", DateTime.Now, true);
             ClassB classB = new ClassB("classB", DateTime.Now, 777);
             ClassC classC = new ClassC("classC", DateTime.Now);
 
@@ -82,7 +82,7 @@ namespace ConsoleApp
                     default:
                         break;
                 }
-            }
+            }*/
 
 
         }

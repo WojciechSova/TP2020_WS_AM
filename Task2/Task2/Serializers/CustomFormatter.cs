@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Xml.Linq;
 using Task2.DataModel;
+using Task2.Serializers;
 
 namespace Task2.Data
 {
@@ -25,45 +27,74 @@ namespace Task2.Data
             }
         }
 
-        private List<Object> values = new List<DataHeader>();
+        ObjectIDGenerator IDGenerator = new ObjectIDGenerator();
+        CustomBinder CustomBinder = new CustomBinder();
+        List<Data> Values = new List<Data>();
+        List<Object> SerializedObjects = new List<Object>();
+        List<Object> AllObjects = new List<Object>();
+        Dictionary<string, Object> RefToObjects = new Dictionary<string, object>();
+        
+        
+        
+        
         public override void Serialize(Stream serializationStream, object graph)
         {
             ISerializable serializable = (ISerializable)graph;
             SerializationInfo serializationInfo = new SerializationInfo(graph.GetType(), new FormatterConverter());
             StreamingContext streamingContext = new StreamingContext(StreamingContextStates.File);
+            CustomBinder.BindToName(graph.GetType(), out string assemblyName, out string typeName);
             serializable.GetObjectData(serializationInfo, streamingContext);
+
             foreach (SerializationEntry item in serializationInfo)
             {
                 this.WriteMember(item.Name, item.Value);
             }
 
-            using (StreamWriter writer = new StreamWriter(serializationStream))
+            StringBuilder fileContent = new StringBuilder(
+                assemblyName + "->" + typeName + "->" + IDGenerator.GetId(graph, out bool _).ToString());
+
+            foreach (Data data in Values)
             {
-                foreach (XElement element in values)
+                fileContent.Append("\n" + data.ToString());
+            }
+            fileContent.Append("$\n");
+
+            using (StreamWriter writer = new StreamWriter(serializationStream, Encoding.UTF8))
+            {
+                writer.Write(fileContent.ToString());
+            }
+
+            fileContent.Clear();
+            Values.Clear();
+            AllObjects.Add(graph);
+            foreach (Object obj in SerializedObjects)
+            {
+                if (!AllObjects.Contains(obj))
                 {
-                    writer.Write($"{element.Name} {element.Value}\n");
+                    this.Serialize(serializationStream, obj);
                 }
             }
         }
 
         public override object Deserialize(Stream serializationStream)
         {
-            DataContext dataContext;
-            using (StreamReader reader = new StreamReader(serializationStream))
-            {
-                SerializationInfo serializationInfo = new SerializationInfo(typeof(DataContext), new FormatterConverter());
-                string line = reader.ReadLine();
+            /*            DataContext dataContext;
+                        using (StreamReader reader = new StreamReader(serializationStream))
+                        {
+                            SerializationInfo serializationInfo = new SerializationInfo(typeof(DataContext), new FormatterConverter());
+                            string line = reader.ReadLine();
 
-                while(line != null)
-                {
-                    string[] values = line.Split("_ ");
-                    serializationInfo.AddValue(values[0], values[1]);
-                    line = reader.ReadLine();
-                }
-                dataContext = new DataContext(serializationInfo);
-            }
+                            while(line != null)
+                            {
+                                string[] values = line.Split("_ ");
+                                serializationInfo.AddValue(values[0], values[1]);
+                                line = reader.ReadLine();
+                            }
+                            dataContext = new DataContext(serializationInfo);
+                        }
 
-            return dataContext;
+                        return dataContext;*/
+            return default;
         }
 
 
@@ -74,13 +105,62 @@ namespace Task2.Data
 
         protected override void WriteArray(object obj, string name, Type memberType)
         {
-            throw new NotImplementedException();
+            long id = IDGenerator.GetId(obj, out bool firstTime);
+            if (firstTime)
+            {
+                SerializedObjects.Add(obj);
+            }
+            Values.Add(new Data(memberType.Name, name, id.ToString()));
         }
 
         protected override void WriteBoolean(bool val, string name)
         {
-            values.Add(new XElement(name, (object) val));
+            Values.Add(new Data(val.GetType().ToString(), name, val.ToString()));
         }
+
+        protected override void WriteDateTime(DateTime val, string name)
+        {
+            Values.Add(new Data(val.GetType().ToString(), name, val.ToLocalTime().ToString("o")));
+        }
+
+        protected override void WriteDouble(double val, string name)
+        {
+            Values.Add(new Data(val.GetType().ToString(), name, val.ToString().Replace(",", ".")));
+        }
+
+        protected override void WriteInt32(int val, string name)
+        {
+            Values.Add(new Data(val.GetType().ToString(), name, val.ToString()));
+        }
+
+        protected override void WriteInt64(long val, string name)
+        {
+            Values.Add(new Data(val.GetType().ToString(), name, val.ToString()));
+        }
+
+        protected void WriteString(object obj, string name)
+        {
+            Values.Add(new Data(obj.GetType().ToString(), name, (String)obj));
+        }
+
+        protected override void WriteObjectRef(object obj, string name, Type memberType)
+        {
+            if (memberType == typeof(String))
+            {
+                WriteString(obj, name);
+                return;
+            }
+
+            long id = IDGenerator.GetId(obj, out bool firstTime);
+            if (firstTime)
+            {
+                SerializedObjects.Add(obj);
+            }
+
+            Values.Add(new Data(memberType.FullName, name, id.ToString()));
+        }
+
+        #region NotImplemented
 
         protected override void WriteByte(byte val, string name)
         {
@@ -92,17 +172,7 @@ namespace Task2.Data
             throw new NotImplementedException();
         }
 
-        protected override void WriteDateTime(DateTime val, string name)
-        {
-            values.Add(new XElement(name, val));
-        }
-
         protected override void WriteDecimal(decimal val, string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void WriteDouble(double val, string name)
         {
             throw new NotImplementedException();
         }
@@ -110,21 +180,6 @@ namespace Task2.Data
         protected override void WriteInt16(short val, string name)
         {
             throw new NotImplementedException();
-        }
-
-        protected override void WriteInt32(int val, string name)
-        {
-            values.Add(new XElement(name, val));
-        }
-
-        protected override void WriteInt64(long val, string name)
-        {
-            values.Add(new XElement(name, val));
-        }
-
-        protected override void WriteObjectRef(object obj, string name, Type memberType)
-        {
-            values.Add(new XElement(name, obj.ToString()));
         }
 
         protected override void WriteSByte(sbyte val, string name)
@@ -159,8 +214,9 @@ namespace Task2.Data
 
         protected override void WriteValueType(object obj, string name, Type memberType)
         {
-            values.Add(new XElement(name, obj.ToString()));
+            throw new NotImplementedException();
         }
+        #endregion
     }
 
 }
