@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Task2.Serializers;
-using Task2.DataModel;
 using Task2.Data;
-using System.Globalization;
+using Task2.DataModel;
+using Task2.Serializers;
 
 namespace ConsoleApp
 {
@@ -30,7 +29,7 @@ namespace ConsoleApp
                     new BookGenres("Drama"), new BookGenres("Action"), new BookGenres("Poetry") }
                 );
 
-            CustomFormatter customFormatter = new CustomFormatter();    
+            CustomFormatter customFormatter;    
 
 
             Console.WriteLine("Wciśnij:");
@@ -47,6 +46,7 @@ namespace ConsoleApp
             string filePath;
             while (option != "9")
             {
+                customFormatter = new CustomFormatter();
                 option = Console.ReadLine();
                 switch (option)
                 {
@@ -59,10 +59,17 @@ namespace ConsoleApp
                         JsonSerializer.Serialize(bookshelf, filePath);
                         break;
                     case "3":
-                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.txt";
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerializationClassA.txt";
                         using (Stream stream = new FileStream(filePath, FileMode.Create))
                         {
                             customFormatter.Serialize(stream, classA);
+                        }
+                        break;
+                    case "4":
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerializationBookshelf.txt";
+                        using (Stream stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            customFormatter.Serialize(stream, bookshelf);
                         }
                         break;
                     case "5":
@@ -73,11 +80,18 @@ namespace ConsoleApp
                         filePath = "..\\..\\..\\..\\TestResults\\jsonFileBookshelf.json";
                         Bookshelf bookshelfDeserialized = JsonSerializer.Deserialize<Bookshelf>(filePath);
                         break;
-                    case "4":
-                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.txt";
+                    case "7":
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerializationClassA.txt";
                         using (Stream stream = new FileStream(filePath, FileMode.Open))
                         {
                             ClassA deserialized = (ClassA)customFormatter.Deserialize(stream);
+                        }
+                        break;
+                    case "8":
+                        filePath = "..\\..\\..\\..\\TestResults\\CustomSerializationBookshelf.txt";
+                        using (Stream stream = new FileStream(filePath, FileMode.Open))
+                        {
+                            Bookshelf deserialized = (Bookshelf)customFormatter.Deserialize(stream);
                         }
                         break;
                     default:

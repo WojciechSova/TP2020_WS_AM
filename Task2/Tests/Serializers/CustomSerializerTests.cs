@@ -10,14 +10,13 @@ namespace Tests.Serializers
     [TestClass]
     public class CustomSerializerTests
     {
-        private readonly String filePath = "..\\..\\..\\..\\TestResults\\CustomSerialization.saved";
         ClassA classA;
         ClassB classB;
         ClassC classC;
         ClassA classADeserialized;
         ClassB classBDeserialized;
         ClassC classCDeserialized;
-        CustomFormatter customFormatter = new CustomFormatter();
+        CustomFormatter customFormatter;
         [TestInitialize]
         public void TestInitialize()
         {
@@ -39,18 +38,18 @@ namespace Tests.Serializers
                     new BookGenres("Drama"), new BookGenres("Action"), new BookGenres("Poetry") }
                 );
 
-            
+            customFormatter = new CustomFormatter();
         }
 
         [TestMethod]
         public void TestGraphSerializationClassA()
         {
-            using (FileStream fileStream = new FileStream("ClassAGraph.txt", FileMode.Create))
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassAGraph.txt", FileMode.Create))
             {
                 customFormatter.Serialize(fileStream, classA);
             }
 
-            using (FileStream fileStream = new FileStream("ClassAGraph.txt", FileMode.Open))
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassAGraph.txt", FileMode.Open))
             {
                 classADeserialized = (ClassA)customFormatter.Deserialize(fileStream);
             }
@@ -67,12 +66,12 @@ namespace Tests.Serializers
         [TestMethod]
         public void TestGraphSerializationClassC()
         {
-            using (FileStream fileStream = new FileStream("ClassCGraph.txt", FileMode.Create))
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassCGraph.txt", FileMode.Create))
             {
                 customFormatter.Serialize(fileStream, classC);
             }
 
-            using (FileStream fileStream = new FileStream("ClassCGraph.txt", FileMode.Open))
+            using (FileStream fileStream = new FileStream("..\\..\\..\\..\\TestResults\\ClassCGraph.txt", FileMode.Open))
             {
                 classCDeserialized = (ClassC)customFormatter.Deserialize(fileStream);
             }
