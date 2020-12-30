@@ -22,5 +22,16 @@ namespace Task3.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=AdventureWorks2014;Integrated Security=True" +
+            "")]
+        public string AdventureWorks2014ConnectionString {
+            get {
+                return ((string)(this["AdventureWorks2014ConnectionString"]));
+            }
+        }
     }
 }
