@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Task3
+﻿namespace Task3
 {
     public class Class1
     {
