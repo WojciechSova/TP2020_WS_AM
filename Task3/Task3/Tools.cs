@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Task3
     {
         public static List<Product> GetProductsByName(string namePart)
         {
-            DataBaseContext db = new DataBaseContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
             return (from p in db.Products
                     where SqlMethods.Like(p.Name, "%" + namePart + "%")
                     select p)
@@ -19,60 +20,91 @@ namespace Task3
 
         public static List<Product> GetProductsByVendorName(string vendorName)
         {
-            DataBaseContext db = new DataBaseContext();
+            DataBaseDataContext db = new DataBaseDataContext();
 
-            List<Product> zapytanie = (from p in db.Products
-                                       join pv in db.ProductVendors on p.ProductID equals pv.ProductID
-                                       join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
-                                       where SqlMethods.Like(v.Name, vendorName)
-                                       select p).ToList();
+            List<Product> query = (from p in db.Products
+                                   join pv in db.ProductVendors on p.ProductID equals pv.ProductID
+                                   join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                                   where SqlMethods.Like(v.Name, vendorName)
+                                   select p).ToList();
 
-            return zapytanie;
+            return query;
         }
 
-        //TODO vendors
+        public static List<string> GetProductNamesByVendorName(string vendorName)
+        {
+            DataBaseDataContext db = new DataBaseDataContext();
+
+            List<string> query = (from p in db.Products
+                                  join pv in db.ProductVendors on p.ProductID equals pv.ProductID
+                                  join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                                  where SqlMethods.Like(v.Name, vendorName)
+                                  select p.Name).ToList();
+
+            return query;
+        }
+        public static string GetProductVendorByProductName(string productName)
+        {
+            DataBaseDataContext db = new DataBaseDataContext();
+
+            string query= (from p in db.Products
+                             join pv in db.ProductVendors on p.ProductID equals pv.ProductID
+                             join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                             where SqlMethods.Like(p.Name, productName)
+                             select v.Name).FirstOrDefault();
+
+            return query;
+        }
 
         public static List<Product> GetProductsWithNRecentReviews(int howManyReviews)
         {
-            DataBaseContext db = new DataBaseContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
 
-            return (from pr in db.ProductReviews
+            List<Product> query = (from pr in db.ProductReview
                     join p in db.Products on pr.ProductID equals p.ProductID
                     select p)
                     .Take(howManyReviews).ToList<Product>();
+
+            return query;
         }
         public static List<Product> GetNRecentlyReviewedProducts(int howManyProducts)
         {
-            DataBaseContext db = new DataBaseContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
 
-            return (from p in db.Products
-                    join pr in db.ProductReviews on p.ProductID equals pr.ProductID
+            List<Product> query = (from p in db.Products
+                    join pr in db.ProductReview on p.ProductID equals pr.ProductID
                     orderby pr.ReviewDate
                     select p)
                     .Take(howManyProducts).ToList<Product>();
+
+            return query;
         }
         public static List<Product> GetNProductsFromCategory(string categoryName, int n)
         {
-            DataBaseContext db = new DataBaseContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
 
-            return (from p in db.Products
-                    join ps in db.ProductSubcategories on p.ProductSubcategoryID equals ps.ProductSubcategoryID
-                    join pc in db.ProductCategories on ps.ProductCategoryID equals pc.ProductCategoryID
+            List<Product> query = (from p in db.Products
+                    join ps in db.ProductCategory on p.ProductSubcategoryID equals ps.ProductCategoryID
+                    join pc in db.ProductCategory on ps.ProductCategoryID equals pc.ProductCategoryID
                     where pc.Name == categoryName
                     select p)
                     .Take(n).ToList();
+
+            return query;
         }
 
         public static double GetTotalStandardCostByCategory(ProductCategory category)
         {
-            DataBaseContext db = new DataBaseContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
 
-            return (from p in db.Products
-                    join ps in db.ProductSubcategories on p.ProductSubcategoryID equals ps.ProductSubcategoryID
-                    join pc in db.ProductCategories on ps.ProductCategoryID equals pc.ProductCategoryID
+            double query =  (from p in db.Products
+                    join ps in db.ProductSubcategory on p.ProductSubcategoryID equals ps.ProductSubcategoryID
+                    join pc in db.ProductCategory on ps.ProductCategoryID equals pc.ProductCategoryID
                     where pc.Equals(category)
                     select p)
                     .Sum(p => Convert.ToDouble(p.ListPrice));
+
+            return query;
 
         }
     }
