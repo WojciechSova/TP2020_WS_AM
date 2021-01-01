@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +15,19 @@ namespace Task3
                     where SqlMethods.Like(p.Name, "%" + namePart + "%")
                     select p)
                     .ToList();
+        }
+
+        public static List<Product> GetProductsByVendorName(string vendorName)
+        {
+            DataBaseContext db = new DataBaseContext();
+
+            List<Product> zapytanie = (from p in db.Products
+                                       join pv in db.ProductVendors on p.ProductID equals pv.ProductID
+                                       join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                                       where SqlMethods.Like(v.Name, vendorName)
+                                       select p).ToList();
+
+            return zapytanie;
         }
 
         //TODO vendors
@@ -65,3 +77,4 @@ namespace Task3
         }
     }
 }
+
