@@ -86,7 +86,7 @@ namespace Task3
             DataBaseDataContext db = new DataBaseDataContext();
 
             List<Product> query = (from p in db.Products
-                    join ps in db.ProductCategory on p.ProductSubcategoryID equals ps.ProductCategoryID
+                    join ps in db.ProductSubcategory on p.ProductSubcategoryID equals ps.ProductSubcategoryID
                     join pc in db.ProductCategory on ps.ProductCategoryID equals pc.ProductCategoryID
                     where pc.Name == categoryName
                     select p)
