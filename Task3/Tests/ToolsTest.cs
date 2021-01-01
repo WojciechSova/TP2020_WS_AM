@@ -15,20 +15,22 @@ namespace Tests
         public void GetProductsByNameTest()
         {
             DataBaseDataContext db = new DataBaseDataContext();
-            List<Product> zapytanie = Tools.GetProductsByName("Flat");
+            List<Product> queryFromMethod = Tools.GetProductsByName("Crankarm");
 
-            List<Product> stala = new List<Product>();
-            Product C = (from p in db.Products where p.ProductID == 325 select p).First();
-            stala.Add(C);
-            C = (from p in db.Products where p.ProductID == 326 select p).First();
-            stala.Add(C);
+            List<Product> queryFromDB = new List<Product>();
+            Product product = (from p in db.Products where p.ProductID == 319 select p).First();
+            queryFromDB.Add(product);
+            product = (from p in db.Products where p.ProductID == 317 select p).First();
+            queryFromDB.Add(product);
+            product = (from p in db.Products where p.ProductID == 318 select p).First();
+            queryFromDB.Add(product);
 
-            for (int i = 0; i < zapytanie.Count(); i++)
+            for (int i = 0; i < queryFromMethod.Count(); i++)
             {
-                if (zapytanie[i].ProductID != stala[i].ProductID) Assert.Fail();
-                if (zapytanie[i].Name != stala[i].Name) Assert.Fail();
+                Assert.AreEqual(queryFromDB[i].ProductID, queryFromMethod[i].ProductID);
+                Assert.AreEqual(queryFromDB[i].Name, queryFromMethod[i].Name);
             }
-            if (zapytanie.Count() != stala.Count()) Assert.Fail();
+            Assert.AreEqual(queryFromDB.Count(), queryFromMethod.Count());
         }
 
         [TestMethod]
