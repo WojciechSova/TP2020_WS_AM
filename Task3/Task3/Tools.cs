@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Task3
 {
-    class Tools
+    public static class Tools
     {
         public static List<Product> GetProductsByName(string namePart)
         {
