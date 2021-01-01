@@ -32,5 +32,36 @@ namespace Task3
             return newPage;
         }
 
+        public static String GetProductAndName(this List<Product> list)
+        {
+            DataBaseDataContext db = new DataBaseDataContext();
+            String info = "";
+            foreach (var product in list)
+            {
+
+                var query = new
+                {
+
+                    name =  (from p in db.Products
+                             join pv in db.ProductVendors on p.ProductID equals pv.ProductID
+                             join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                             where product.ProductID == p.ProductID
+                             select p.Name)
+                             .FirstOrDefault(),
+
+                    vendor = (from p in db.Products
+                              join pv in db.ProductVendors on p.ProductID equals pv.ProductID
+                              join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                              where product.ProductID == p.ProductID
+                              select v.Name)
+                              .FirstOrDefault()
+
+                };
+
+                info += query.name.ToString() + " - " + query.vendor.ToString() + "\n";
+            }
+            return info;
+        }
+
     }
 }

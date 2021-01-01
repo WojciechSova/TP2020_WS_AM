@@ -12,10 +12,12 @@ namespace Task3
         public static List<Product> GetProductsByName(string namePart)
         {
             DataBaseDataContext db = new DataBaseDataContext();
-            return (from p in db.Products
+            List<Product> query = (from p in db.Products
                     where SqlMethods.Like(p.Name, "%" + namePart + "%")
                     select p)
                     .ToList();
+
+            return query;
         }
 
         public static List<Product> GetProductsByVendorName(string vendorName)
