@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task3
 {
@@ -26,7 +24,10 @@ namespace Task3
 
             for (int i = 0; i < list.Count(); i++)
             {
-                if (i >= size * page && i < (size * page) + size) newPage.Add(list[i]);
+                if (i >= size * page && i < (size * page) + size) 
+                { 
+                    newPage.Add(list[i]); 
+                }
             }
 
             return newPage;
