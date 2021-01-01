@@ -11,7 +11,7 @@ namespace Task3
     {
         public static List<Product> GetProductsByName(string namePart)
         {
-            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext();
             return (from p in db.Products
                     where SqlMethods.Like(p.Name, "%" + namePart + "%")
                     select p)
@@ -58,7 +58,7 @@ namespace Task3
 
         public static List<Product> GetProductsWithNRecentReviews(int howManyReviews)
         {
-            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext();
 
             List<Product> query = (from pr in db.ProductReview
                     join p in db.Products on pr.ProductID equals p.ProductID
@@ -69,7 +69,7 @@ namespace Task3
         }
         public static List<Product> GetNRecentlyReviewedProducts(int howManyProducts)
         {
-            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext();
 
             List<Product> query = (from p in db.Products
                     join pr in db.ProductReview on p.ProductID equals pr.ProductID
@@ -81,7 +81,7 @@ namespace Task3
         }
         public static List<Product> GetNProductsFromCategory(string categoryName, int n)
         {
-            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext();
 
             List<Product> query = (from p in db.Products
                     join ps in db.ProductCategory on p.ProductSubcategoryID equals ps.ProductCategoryID
@@ -95,7 +95,7 @@ namespace Task3
 
         public static double GetTotalStandardCostByCategory(ProductCategory category)
         {
-            DataBaseDataContext db = new DataBaseDataContext("Data Source=localhost;Initial Catalog=TWIERDZA\\ARTURROSERVER; Integrated Security=True");
+            DataBaseDataContext db = new DataBaseDataContext();
 
             double query =  (from p in db.Products
                     join ps in db.ProductSubcategory on p.ProductSubcategoryID equals ps.ProductSubcategoryID
