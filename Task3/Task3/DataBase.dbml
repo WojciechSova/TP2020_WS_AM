@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AdventureWorks2014" Class="DataBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=PC-WOJTEK;Initial Catalog=AdventureWorks2014;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="Task3.Properties.Settings" SettingsPropertyName="AdventureWorks2014ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=TWIERDZA\ARTURROSERVER;Initial Catalog=AdventureWorks2014;Integrated Security=True" SettingsObjectName="Task3.Properties.Settings" SettingsPropertyName="AdventureWorks2014ConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="Production.Product" Member="Products">
     <Type Name="Product">
       <Column Name="ProductID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -28,6 +28,8 @@
       <Column Name="rowguid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Product_ProductVendor" Member="ProductVendors" ThisKey="ProductID" OtherKey="ProductID" Type="ProductVendor" />
+      <Association Name="Product_ProductReview" Member="ProductReview" ThisKey="ProductID" OtherKey="ProductID" Type="ProductReview" />
+      <Association Name="ProductSubcategory_Product" Member="ProductSubcategory" ThisKey="ProductSubcategoryID" OtherKey="ProductSubcategoryID" Type="ProductSubcategory" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="Purchasing.Vendor" Member="Vendors">
@@ -41,6 +43,7 @@
       <Column Name="PurchasingWebServiceURL" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
       <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Vendor_ProductVendor" Member="ProductVendors" ThisKey="BusinessEntityID" OtherKey="BusinessEntityID" Type="ProductVendor" />
+      <Association Name="BusinessEntity_Vendor" Member="BusinessEntity" ThisKey="BusinessEntityID" OtherKey="BusinessEntityID" Type="BusinessEntity" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="Person.Person" Member="Persons">
@@ -58,6 +61,7 @@
       <Column Name="Demographics" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="rowguid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="BusinessEntity_Person" Member="BusinessEntity" ThisKey="BusinessEntityID" OtherKey="BusinessEntityID" Type="BusinessEntity" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="Purchasing.ProductVendor" Member="ProductVendors">
@@ -75,6 +79,48 @@
       <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Product_ProductVendor" Member="Product" ThisKey="ProductID" OtherKey="ProductID" Type="Product" IsForeignKey="true" />
       <Association Name="Vendor_ProductVendor" Member="Vendor" ThisKey="BusinessEntityID" OtherKey="BusinessEntityID" Type="Vendor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="Person.BusinessEntity" Member="BusinessEntity">
+    <Type Name="BusinessEntity">
+      <Column Name="BusinessEntityID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="rowguid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="BusinessEntity_Vendor" Member="Vendor" ThisKey="BusinessEntityID" OtherKey="BusinessEntityID" Type="Vendor" Cardinality="One" />
+      <Association Name="BusinessEntity_Person" Member="Person" ThisKey="BusinessEntityID" OtherKey="BusinessEntityID" Type="Person" Cardinality="One" />
+    </Type>
+  </Table>
+  <Table Name="Production.ProductCategory" Member="ProductCategory">
+    <Type Name="ProductCategory">
+      <Column Name="ProductCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="rowguid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ProductCategory_ProductSubcategory" Member="ProductSubcategory" ThisKey="ProductCategoryID" OtherKey="ProductCategoryID" Type="ProductSubcategory" />
+    </Type>
+  </Table>
+  <Table Name="Production.ProductSubcategory" Member="ProductSubcategory">
+    <Type Name="ProductSubcategory">
+      <Column Name="ProductSubcategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProductCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="rowguid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ProductSubcategory_Product" Member="Product" ThisKey="ProductSubcategoryID" OtherKey="ProductSubcategoryID" Type="Product" />
+      <Association Name="ProductCategory_ProductSubcategory" Member="ProductCategory" ThisKey="ProductCategoryID" OtherKey="ProductCategoryID" Type="ProductCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="Production.ProductReview" Member="ProductReview">
+    <Type Name="ProductReview">
+      <Column Name="ProductReviewID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProductID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReviewerName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ReviewDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EmailAddress" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Rating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comments" Type="System.String" DbType="NVarChar(3850)" CanBeNull="true" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Product_ProductReview" Member="Product" ThisKey="ProductID" OtherKey="ProductID" Type="Product" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
