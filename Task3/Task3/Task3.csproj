@@ -54,7 +54,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Tools.cs" />
+    <Compile Include="ToolsMyProduct.cs" />
+    <Compile Include="ToolsProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
