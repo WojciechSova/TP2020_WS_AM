@@ -24,6 +24,7 @@ namespace Tests
         {
             DataBaseDataContext db = new DataBaseDataContext();
             List<Product> query = (from p in db.Products select p).ToList();
+            query.Sort((x, y) => x.ProductID.CompareTo(y.ProductID));
             query = query.SplitIntoPages(3, 4);
 
             List<Product> tmp = new List<Product>();
@@ -48,6 +49,7 @@ namespace Tests
             DataBaseDataContext db = new DataBaseDataContext();
             List<Product> all = (from p in db.Products select p).ToList();
             List<Product> query = Tools.GetProductsByName("Thin-Jam Hex Nut");
+            query.Sort((x, y) => x.ProductID.CompareTo(y.ProductID));
 
             List<String> productsAndNames = query.GetProductAndName().Split('\n').ToList();
 

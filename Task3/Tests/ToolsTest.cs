@@ -14,13 +14,14 @@ namespace Tests
         {
             DataBaseDataContext db = new DataBaseDataContext();
             List<Product> queryFromMethod = Tools.GetProductsByName("Crankarm");
+            queryFromMethod.Sort((x, y) => x.ProductID.CompareTo(y.ProductID));
 
             List<Product> queryFromDB = new List<Product>();
-            Product product = (from p in db.Products where p.ProductID == 319 select p).First();
-            queryFromDB.Add(product);
-            product = (from p in db.Products where p.ProductID == 317 select p).First();
+            Product product = (from p in db.Products where p.ProductID == 317 select p).First();
             queryFromDB.Add(product);
             product = (from p in db.Products where p.ProductID == 318 select p).First();
+            queryFromDB.Add(product);
+            product = (from p in db.Products where p.ProductID == 319 select p).First();
             queryFromDB.Add(product);
 
             for (int i = 0; i < queryFromMethod.Count(); i++)
@@ -170,13 +171,14 @@ namespace Tests
         {
             DataBaseDataContext db = new DataBaseDataContext();
             List<MyProduct> queryFromMethod = Tools.MyProductGetProductsByName("Crankarm");
+            queryFromMethod.Sort((x, y) => x.ProductID.CompareTo(y.ProductID));
 
             List<MyProduct> queryFromDB = new List<MyProduct>();
-            MyProduct myProduct = (from p in db.MyProduct where p.ProductID == 319 select p).First();
-            queryFromDB.Add(myProduct);
-            myProduct = (from p in db.MyProduct where p.ProductID == 317 select p).First();
+            MyProduct myProduct = (from p in db.MyProduct where p.ProductID == 317 select p).First();
             queryFromDB.Add(myProduct);
             myProduct = (from p in db.MyProduct where p.ProductID == 318 select p).First();
+            queryFromDB.Add(myProduct);
+            myProduct = (from p in db.MyProduct where p.ProductID == 319 select p).First();
             queryFromDB.Add(myProduct);
 
             for (int i = 0; i < queryFromMethod.Count(); i++)
