@@ -5,6 +5,7 @@ using Task3;
 
 namespace Tests
 {
+    [TestClass]
     public class ToolsMyProductTests
     {
         [TestMethod]
