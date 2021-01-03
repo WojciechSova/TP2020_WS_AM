@@ -9,7 +9,7 @@ namespace Tests
     [TestClass]
     public class ExtensionsTests
     {
-        [TestMethod]+
+        [TestMethod]
         public void WithoutCategoryMethodTest()
         {
             DataBaseDataContext db = new DataBaseDataContext();
