@@ -6,11 +6,23 @@ namespace Task3
 {
     public static class Extensions
     {
-        public static List<Product> WithoutCategory(this List<Product> list)
+        public static List<Product> WithoutCategoryMethod(this List<Product> list)
         {
             IEnumerable<Product> withoutCategory = list.Where(p => p.ProductSubcategoryID == null);
 
             return withoutCategory.ToList();
+        }
+
+        public static List<Product> WithoutCategoryQuery(this List<Product> list)
+        {
+            List<Product> withoutCategory = new List<Product>();
+
+            withoutCategory = (from p in list
+                               where p.ProductSubcategoryID == null
+                               select p).ToList();
+
+
+            return withoutCategory;
         }
 
         public static List<Product> SplitIntoPages(this List<Product> list, int size, int page)
@@ -19,6 +31,8 @@ namespace Task3
 
             return newPage.ToList();
         }
+
+
 
         public static String GetProductAndName(this List<Product> list)
         {

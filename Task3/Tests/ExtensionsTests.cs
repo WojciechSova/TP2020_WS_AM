@@ -9,12 +9,22 @@ namespace Tests
     [TestClass]
     public class ExtensionsTests
     {
-        [TestMethod]
-        public void WithoutCategoryTest()
+        [TestMethod]+
+        public void WithoutCategoryMethodTest()
         {
             DataBaseDataContext db = new DataBaseDataContext();
             List<Product> query = (from p in db.Products select p).ToList();
-            query = query.WithoutCategory();
+            query = query.WithoutCategoryMethod();
+
+            Assert.AreEqual(209, query.Count());
+        }
+
+        [TestMethod]
+        public void WithoutCategoryQueryTest()
+        {
+            DataBaseDataContext db = new DataBaseDataContext();
+            List<Product> query = (from p in db.Products select p).ToList();
+            query = query.WithoutCategoryQuery();
 
             Assert.AreEqual(209, query.Count());
         }
