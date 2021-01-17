@@ -5,11 +5,21 @@ using System.Linq;
 
 namespace Task3
 {
-    public static class ToolsProduct
+    public class ToolsProduct : IDisposable
     {
-        public static List<Product> GetProductsByName(string namePart)
+        private DataBaseDataContext db = null;
+        public ToolsProduct()
         {
-            DataBaseDataContext db = new DataBaseDataContext();
+            db = new DataBaseDataContext();
+        }
+
+        public void Dispose()
+        {
+            db.Dispose();
+        }
+
+        public List<Product> GetProductsByName(string namePart)
+        {
             List<Product> query = (from p in db.Products
                     where SqlMethods.Like(p.Name, "%" + namePart + "%")
                     select p)
@@ -18,10 +28,8 @@ namespace Task3
             return query;
         }
 
-        public static List<Product> GetProductsByVendorName(string vendorName)
+        public List<Product> GetProductsByVendorName(string vendorName)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-
             List<Product> query = (from p in db.Products
                                    join pv in db.ProductVendors on p.ProductID equals pv.ProductID
                                    join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
@@ -31,10 +39,8 @@ namespace Task3
             return query;
         }
 
-        public static List<string> GetProductNamesByVendorName(string vendorName)
+        public List<string> GetProductNamesByVendorName(string vendorName)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-
             List<string> query = (from p in db.Products
                                   join pv in db.ProductVendors on p.ProductID equals pv.ProductID
                                   join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
@@ -43,10 +49,8 @@ namespace Task3
 
             return query;
         }
-        public static string GetProductVendorByProductName(string productName)
+        public string GetProductVendorByProductName(string productName)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-
             string query= (from p in db.Products
                              join pv in db.ProductVendors on p.ProductID equals pv.ProductID
                              join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
@@ -56,10 +60,8 @@ namespace Task3
             return query;
         }
 
-        public static List<Product> GetProductsWithNRecentReviews(int howManyReviews)
+        public List<Product> GetProductsWithNRecentReviews(int howManyReviews)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-
             List<Product> query = (from pr in db.ProductReview
                     join p in db.Products on pr.ProductID equals p.ProductID
                     select p)
@@ -67,10 +69,8 @@ namespace Task3
 
             return query;
         }
-        public static List<Product> GetNRecentlyReviewedProducts(int howManyProducts)
+        public List<Product> GetNRecentlyReviewedProducts(int howManyProducts)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-
             List<Product> query = (from p in db.Products
                     join pr in db.ProductReview on p.ProductID equals pr.ProductID
                     orderby pr.ReviewDate
@@ -79,10 +79,8 @@ namespace Task3
 
             return query;
         }
-        public static List<Product> GetNProductsFromCategory(string categoryName, int n)
+        public List<Product> GetNProductsFromCategory(string categoryName, int n)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-
             List<Product> query = (from p in db.Products
                     join ps in db.ProductSubcategory on p.ProductSubcategoryID equals ps.ProductSubcategoryID
                     join pc in db.ProductCategory on ps.ProductCategoryID equals pc.ProductCategoryID
@@ -93,10 +91,8 @@ namespace Task3
             return query;
         }
 
-        public static double GetTotalStandardCostByCategory(ProductCategory category)
+        public double GetTotalStandardCostByCategory(ProductCategory category)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-
             double query =  (from p in db.Products
                     join ps in db.ProductSubcategory on p.ProductSubcategoryID equals ps.ProductSubcategoryID
                     join pc in db.ProductCategory on ps.ProductCategoryID equals pc.ProductCategoryID
@@ -106,5 +102,7 @@ namespace Task3
 
             return query;
         }
+
+
     }
 }

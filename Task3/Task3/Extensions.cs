@@ -36,33 +36,35 @@ namespace Task3
 
         public static String GetProductAndName(this List<Product> list)
         {
-            DataBaseDataContext db = new DataBaseDataContext();
-            String info = "";
-            foreach (var product in list)
+            using (DataBaseDataContext db = new DataBaseDataContext())
             {
-
-                var query = new
+                String info = "";
+                foreach (var product in list)
                 {
 
-                    name =  (from p in list
-                             join pv in product.ProductVendors on p.ProductID equals pv.ProductID
-                             join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
-                             where product.ProductID == p.ProductID
-                             select p.Name)
-                             .FirstOrDefault(),
+                    var query = new
+                    {
 
-                    vendor = (from p in list
-                              join pv in product.ProductVendors on p.ProductID equals pv.ProductID
-                              join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
-                              where product.ProductID == p.ProductID
-                              select v.Name)
-                              .FirstOrDefault()
+                        name = (from p in list
+                                join pv in product.ProductVendors on p.ProductID equals pv.ProductID
+                                join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                                where product.ProductID == p.ProductID
+                                select p.Name)
+                                 .FirstOrDefault(),
 
-                };
+                        vendor = (from p in list
+                                  join pv in product.ProductVendors on p.ProductID equals pv.ProductID
+                                  join v in db.Vendors on pv.BusinessEntityID equals v.BusinessEntityID
+                                  where product.ProductID == p.ProductID
+                                  select v.Name)
+                                  .FirstOrDefault()
 
-                info += query.name.ToString() + " - " + query.vendor.ToString() + "\n";
+                    };
+
+                    info += query.name.ToString() + " - " + query.vendor.ToString() + "\n";
+                }
+                return info;
             }
-            return info;
         }
 
     }
