@@ -15,14 +15,14 @@ namespace Task3
 
         public static List<Product> WithoutCategoryQuery(this List<Product> list)
         {
-            List<Product> withoutCategory = new List<Product>();
+            IEnumerable<Product> withoutCategory = new List<Product>();
 
             withoutCategory = (from p in list
                                where p.ProductSubcategoryID == null
-                               select p).ToList();
+                               select p);
 
 
-            return withoutCategory;
+            return withoutCategory.ToList();
         }
 
         public static List<Product> SplitIntoPages(this List<Product> list, int size, int page)
