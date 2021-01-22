@@ -12,6 +12,6 @@ namespace Data
         IEnumerable<T> GetAll();
         void AddItem(T item);
         void DeleteItem(T item);
-        void UpdateItem(T item);
+        void UpdateItem(int id, T item);
     }
 }

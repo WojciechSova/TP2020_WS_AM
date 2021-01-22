@@ -35,9 +35,16 @@ namespace Data
             throw new NotImplementedException();
         }
 
-        public void UpdateItem(CreditCard item)
+        public void UpdateItem(int id, CreditCard item)
         {
-            throw new NotImplementedException();
+            CreditCard cc = GetItem(id);
+            cc.CardNumber = item.CardNumber;
+            cc.CardType = item.CardType;
+            cc.CreditCardID = item.CreditCardID;
+            cc.ExpMonth = item.ExpMonth;
+            cc.ExpYear = item.ExpYear;
+            cc.ModifiedDate = DateTime.UtcNow;
+            DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
     }
 }
