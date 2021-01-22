@@ -23,7 +23,7 @@ namespace Data
         public void DeleteItem(CreditCard item)
         {
             CreditCard card = GetItem(item.CreditCardID);
-            DataBaseDataContext.CreditCards.DeleteOnSubmit(item);
+            DataBaseDataContext.CreditCards.DeleteOnSubmit(card);
             DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
 
