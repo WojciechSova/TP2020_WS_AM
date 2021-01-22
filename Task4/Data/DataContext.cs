@@ -17,22 +17,24 @@ namespace Data
         public void AddItem(CreditCard item)
         {
             DataBaseDataContext.CreditCards.InsertOnSubmit(item);
-            DataBaseDataContext.SubmitChanges();
+            DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
 
         public void DeleteItem(CreditCard item)
         {
-            //CreditCard card = DataBaseDataContext.get
+            CreditCard card = GetItem(item.CreditCardID);
+            DataBaseDataContext.CreditCards.DeleteOnSubmit(item);
+            DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
 
         public IEnumerable<CreditCard> GetAll()
         {
-            throw new NotImplementedException();
+            return DataBaseDataContext.CreditCards;
         }
 
         public CreditCard GetItem(int id)
         {
-            throw new NotImplementedException();
+            return DataBaseDataContext.CreditCards.Single(c => c.CreditCardID == id);
         }
 
         public void UpdateItem(int id, CreditCard item)
