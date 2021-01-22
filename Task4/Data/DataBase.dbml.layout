@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataBase">
+  <DataContextMoniker Name="/DataBaseDataContext" />
+  <nestedChildShapes>
+    <classShape Id="29d90fbe-5b90-4317-81e9-74774ffb19bd" absoluteBounds="4.5, 2.75, 2, 1.9631982421875">
+      <DataClassMoniker Name="/DataBaseDataContext/CreditCard" />
+      <nestedChildShapes>
+        <elementListCompartment Id="74e5af7f-d36a-4458-aff4-6bdfbcfeb3f3" absoluteBounds="4.515, 3.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
