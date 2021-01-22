@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Linq;
 
 namespace Data
 {
     class DataContext : IDataContext<CreditCard>
     {
-
+        DataBaseDataContext DataBaseDataContext;
         public DataContext()
         {
-
+            DataBaseDataContext = new DataBaseDataContext();
         }
         public void AddItem(CreditCard item)
         {
-            throw new NotImplementedException();
+            DataBaseDataContext.CreditCards.InsertOnSubmit(item);
+            DataBaseDataContext.SubmitChanges();
         }
 
         public void DeleteItem(CreditCard item)
         {
-            throw new NotImplementedException();
+            //CreditCard card = DataBaseDataContext.get
         }
 
         public IEnumerable<CreditCard> GetAll()
