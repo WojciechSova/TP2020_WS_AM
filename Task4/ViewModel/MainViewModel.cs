@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -10,105 +11,94 @@ using ViewModel;
 
 namespace ViewModel
 {
-    class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
-        private IServiceWrapper service;
-        private Model cardCategory;
-        private ObservableCollection<Model> cardCategories;
-        private Model cardCategoryInfo;
-        private ObservableCollection<Model> cardCategoriesInfo;
-        public string CardNumber { get; set; }
+        private CardModel cardModel;
+        private CardService cardService;
+        private ObservableCollection<CardModel> cardList;
         public ICommand AddCard { get; set; }
         public ICommand RemoveCard { get; set; }
         public ICommand UpdateCard { get; set; }
         public ICommand GetAllCards { get; set; }
         public ICommand GetDetails { get; set; }
 
-        public MainViewModel()
+        public MainViewModel(CardModel creditCard, CardService cardService)
         {
-            Service = new ServiceWrapper();
             AddCard = new RelayCommand(AddCreditCard);
             RemoveCard = new RelayCommand(RemoveCreditCard);
             UpdateCard = new RelayCommand(UpdateCreditCard);
-            GetAllCards = new RelayCommand(() => Service = new ServiceWrapper());
-            GetDetails = new RelayCommand(GetCardDetails);
+            /*GetAllCards = new RelayCommand(() => Service = new ServiceWrapper());
+            GetDetails = new RelayCommand(GetCardDetails);*/
+            this.cardModel = creditCard;
+            this.cardService = cardService;
         }
 
-
-
-        public IServiceWrapper Service
+        public MainViewModel()
         {
-            get { return service; }
-            set
-            {
-                service = value;
 
-                Task.Run(() =>
-                {
-                    cardCategories = new ObservableCollection<Model>(value.GetAllCreditCards());
-                });
-
-            }
         }
 
-        public ObservableCollection<Model> CardCategories
+        public int CardId
         {
-            get { return cardCategories; }
+            get => cardModel.CreditCardID;
             set
             {
-                cardCategories = value;
-                RaisePropertyChanged();
+                cardModel.CreditCardID = value;
+                OnPropertyChanged("CardId");
             }
         }
 
-        public ObservableCollection<Model> CardCategoriesInfo
+        public string CardNumber
         {
-            get { return cardCategoriesInfo; }
+            get => cardModel.CardNumber;
             set
             {
-                cardCategoriesInfo = value;
-                RaisePropertyChanged();
+                cardModel.CardNumber = value;
+                OnPropertyChanged("CardNumber");
             }
         }
 
-        public Model CardCategoryInfo
+        public string CardType
         {
-            get
-            {
-                return cardCategoryInfo;
-            }
+            get => cardModel.CardType;
             set
             {
-                cardCategoryInfo = value;
-                RaisePropertyChanged();
+                cardModel.CardType = value;
+                OnPropertyChanged("CardType");
             }
         }
 
-        public Model CardCategory
+        public byte ExpMonth
         {
-            get
-            {
-                return cardCategory;
-            }
+            get => cardModel.ExpMonth;
             set
             {
-                cardCategory = value;
-                RaisePropertyChanged();
+                cardModel.ExpMonth = value;
+                OnPropertyChanged("ExpMonth");
+            }
+        }
+
+        public short ExpYear
+        {
+            get => cardModel.ExpYear;
+            set
+            {
+                cardModel.ExpYear = value;
+                OnPropertyChanged("ExpYear");
             }
         }
 
         public void AddCreditCard()
         {
-            Model productCategory = new Model(99, "11111111111", "Visa", 1, 2021);
             Task.Run(() =>
             {
-                service.AddCard(productCategory);
+                cardService.AddCard(cardModel);
             });
         }
 
         public void RemoveCreditCard()
         {
-            Task.Run(() => service.DeleteCreditCard(cardCategory.CreditCardID));
+            Task.Run(() => cardService.DeleteCreditCard(cardModel.CreditCardID));
 
         }
 
@@ -116,17 +106,7 @@ namespace ViewModel
         {
             Task.Run(() =>
             {
-                service.UpdateCreditCard(cardCategory.CreditCardID, CardCategory);
-            });
-        }
-
-        public void GetCardDetails()
-        {
-            Task.Run(() =>
-            {
-                CardCategoriesInfo = new ObservableCollection<Model>();
-                CardCategoriesInfo.Add(service.GetCard(cardCategory.CreditCardID));
-                CardCategoryInfo = service.GetCard(cardCategory.CreditCardID);
+                cardService.UpdateCreditCard(cardModel.CreditCardID, cardModel);
             });
         }
     }

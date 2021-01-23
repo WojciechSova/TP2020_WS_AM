@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ViewModel
 {
-    class ServiceWrapper : IServiceWrapper
+    public class ServiceWrapper : IServiceWrapper
     {
         private IService service;
 

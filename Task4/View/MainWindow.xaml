@@ -3,10 +3,53 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:View"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <StackPanel>
+        <ListView Width="Auto" Height="200" ItemsSource="{Binding CreditCardList}" SelectedItem="{Binding SelectedCreditCard}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Card Id" DisplayMemberBinding="{Binding CardId}" Width="125" />
+                    <GridViewColumn Header="Card Number" DisplayMemberBinding="{Binding CardNumber}" Width="125" />
+                    <GridViewColumn Header="Card Type" DisplayMemberBinding="{Binding CardType}" Width="110" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Add new Card" Width="auto" HorizontalAlignment="Center" Margin="10 10 0 10" Command="{Binding ShowAddCommand}" />
+    </StackPanel>
+
+    <Window.Resources>
+        <DataTemplate x:Key="DetailTemplate">
+            <Border Width="220" Height="Auto" Margin="20"
+                    BorderBrush="DarkBlue" BorderThickness="1" Padding="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Card Number:" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CardType}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Card Type:" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CardType}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Expiration Month:" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ExpMonth}" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Expiration Year:" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ExpYear}" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
 </Window>

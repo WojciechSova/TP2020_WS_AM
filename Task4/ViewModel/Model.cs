@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ViewModel
 {
-    class Model
+    public class Model
     {
         public Model(ICreditCard card)
         {

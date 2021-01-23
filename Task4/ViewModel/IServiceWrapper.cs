@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ViewModel
 {
-    interface IServiceWrapper
+    public interface IServiceWrapper
     {
         Model GetCard(int id);
 
