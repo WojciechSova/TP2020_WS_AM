@@ -11,7 +11,7 @@ namespace Data
         T GetItem(int id);
         IEnumerable<T> GetAll();
         void AddItem(T item);
-        void DeleteItem(T item);
+        void DeleteItem(int id);
         void UpdateItem(int id, T item);
     }
 }

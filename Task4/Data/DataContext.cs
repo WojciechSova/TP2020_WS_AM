@@ -7,7 +7,7 @@ using System.Data.Linq;
 
 namespace Data
 {
-    class DataContext : IDataContext<CreditCard>
+    public class DataContext : IDataContext<CreditCard>
     {
         DataBaseDataContext DataBaseDataContext;
         public DataContext()
@@ -20,9 +20,9 @@ namespace Data
             DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
 
-        public void DeleteItem(CreditCard item)
+        public void DeleteItem(int id)
         {
-            CreditCard card = GetItem(item.CreditCardID);
+            CreditCard card = GetItem(id);
             DataBaseDataContext.CreditCards.DeleteOnSubmit(card);
             DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
