@@ -15,36 +15,70 @@ namespace ViewModel
     {
         private CardModel cardModel;
         private CardService cardService;
-        private ObservableCollection<CardModel> cardList;
+        private List<CardModel> cardList;
         public ICommand AddCard { get; set; }
         public ICommand RemoveCard { get; set; }
         public ICommand UpdateCard { get; set; }
-        public ICommand GetAllCards { get; set; }
-        public ICommand GetDetails { get; set; }
+
+        private CardModel currentCard;
 
         public MainViewModel(CardModel creditCard, CardService cardService)
         {
             AddCard = new RelayCommand(AddCreditCard);
             RemoveCard = new RelayCommand(RemoveCreditCard);
             UpdateCard = new RelayCommand(UpdateCreditCard);
-            /*GetAllCards = new RelayCommand(() => Service = new ServiceWrapper());
-            GetDetails = new RelayCommand(GetCardDetails);*/
             this.cardModel = creditCard;
             this.cardService = cardService;
         }
 
         public MainViewModel()
         {
-
+            cardService = new CardService();
         }
 
-        public int CardId
+        public CardModel SelectedCreditCard
+        {
+            get => currentCard;
+            set
+            {
+                currentCard = value;
+                OnPropertyChanged("SelectedCreditCard");
+            }
+        }
+
+        public List<CardModel> GetCreditCards()
+        {
+            if (cardList == null)
+            {
+                cardList = new List<CardModel>();
+            }
+
+            cardList.Clear();
+            //foreach (CardModel card in cardService.GetAllCreditCards().Select(card => new CardModel(card)))
+            //{
+            //    cardList.Add(card);
+            //}
+
+            return cardList = cardService.GetAllCreditCards().ToList();
+        }
+
+        public List<CardModel> CreditCardList
+        {
+            get => GetCreditCards();
+            set
+            {
+                cardList = value;
+                OnPropertyChanged("CreditCardList");
+            }
+        }
+
+        public int CreditCardID
         {
             get => cardModel.CreditCardID;
             set
             {
                 cardModel.CreditCardID = value;
-                OnPropertyChanged("CardId");
+                OnPropertyChanged("CreditCardID");
             }
         }
 

@@ -5,11 +5,11 @@
     <UserControl.Resources />
 
     <StackPanel>
-        <Button Content="Add Credit Card" Width="90" HorizontalAlignment="Center" Margin="10 10 0 10" Command="{Binding ShowAddCommand}" />
+        <!--<Button Content="Add Credit Card" Width="90" HorizontalAlignment="Center" Margin="10 10 0 10" Command="{Binding ShowAddCommand}" />-->
         <ListView Width="Auto" Height="200" ItemsSource="{Binding CreditCardList}" SelectedItem="{Binding SelectedCreditCard}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Card Id" DisplayMemberBinding="{Binding CardId}" Width="125" />
+                    <GridViewColumn Header="Card Id" DisplayMemberBinding="{Binding CreditCardID}" Width="125" />
                     <GridViewColumn Header="Card Number" DisplayMemberBinding="{Binding CardNumber}" Width="125" />
                     <GridViewColumn Header="Card Type" DisplayMemberBinding="{Binding CardType}" Width="110" />
                 </GridView>

@@ -29,7 +29,7 @@ namespace View
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            ListViewModel mc = (ListViewModel)DataContext;
+            //ListViewModel mc = (ListViewModel)DataContext;
             //mc.WindowResolver = new CreditCardDetailsResolver();
         }
     }
