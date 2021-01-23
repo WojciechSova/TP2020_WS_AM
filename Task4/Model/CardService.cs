@@ -6,9 +6,14 @@ using Logic;
 
 namespace Model
 {
-    class CardService
+    public class CardService
     {
         private IService service;
+
+        public CardService()
+        {
+            this.service = new Service();
+        }
 
         public CardService(IService service)
         {
