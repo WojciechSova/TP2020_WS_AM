@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="View.ListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="Auto" Width="Auto">
+    <UserControl.Resources />
+
+    <StackPanel>
+        <Button Content="Add Credit Card" Width="90" HorizontalAlignment="Center" Margin="10 10 0 10" Command="{Binding ShowAddCommand}" />
+        <ListView Width="Auto" Height="200" ItemsSource="{Binding CreditCardList}" SelectedItem="{Binding SelectedCreditCard}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Card Id" DisplayMemberBinding="{Binding CardId}" Width="125" />
+                    <GridViewColumn Header="Card Number" DisplayMemberBinding="{Binding CardNumber}" Width="125" />
+                    <GridViewColumn Header="Card Type" DisplayMemberBinding="{Binding CardType}" Width="110" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
+</UserControl>
