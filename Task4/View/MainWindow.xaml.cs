@@ -30,7 +30,7 @@ namespace View
         {
             base.OnInitialized(e);
             ListViewModel mc = (ListViewModel)DataContext;
-            mc.WindowResolver = new CreditCardDetailsResolver();
+            //mc.WindowResolver = new CreditCardDetailsResolver();
         }
     }
 }

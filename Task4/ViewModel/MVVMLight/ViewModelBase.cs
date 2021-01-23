@@ -9,7 +9,7 @@ namespace ViewModel
 
         protected virtual void OnPropertyChanged(string propName)
         {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
         protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
