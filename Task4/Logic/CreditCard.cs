@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    internal class CreditCard : ICreditCard
+    public class CreditCard : ICreditCard
     {
         public CreditCard() { }
 
