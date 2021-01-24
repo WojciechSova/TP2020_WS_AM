@@ -70,15 +70,23 @@ namespace ViewModel
 
         private void OkMethod()
         {
+            CardModel tmp = cardModel;
             if (addMethod)
             {
-                Task.Run(() => cardService.AddCard(cardModel));
+                Task.Run(() => 
+                {
+                    cardService.AddCard(tmp);
+                    CreditCardList = GetCreditCards();
+                });
             }
             else
             {
-                Task.Run(() => cardService.UpdateCreditCard(cardModel.CreditCardID, cardModel));
+                Task.Run(() =>
+                {
+                    cardService.UpdateCreditCard(tmp.CreditCardID, tmp);
+                    CreditCardList = GetCreditCards();
+                });
             }
-            CreditCardList = GetCreditCards();
             cardModel = new CardModel();
             CloseWindow?.Invoke();
         }
