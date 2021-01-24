@@ -13,10 +13,8 @@ namespace ViewModel
         private CardModel cardModel;
         private CardService cardService;
         private List<CardModel> cardList;
-        private Boolean addMethod = true;
-        public ICommand AddCard { get; set; }
+        public Boolean addMethod { get; set; } = true;
         public ICommand RemoveCard { get; set; }
-        public ICommand UpdateCard { get; set; }
         public ICommand ShowAddDialog { get; set; }
         public ICommand ShowUpdateDialog { get; set; }
         public ICommand OKCommand { get; set; }

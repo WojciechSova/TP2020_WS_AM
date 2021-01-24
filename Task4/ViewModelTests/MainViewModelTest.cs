@@ -2,6 +2,8 @@ using Model;
 using LogicTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ViewModel;
+using System.Threading;
+using System.Linq;
 
 namespace ViewModelTests
 {
@@ -20,7 +22,7 @@ namespace ViewModelTests
                 CreditCardID = 123456,
                 CardNumber = "98765432101234",
                 CardType = "VISA",
-                ExpMonth = 04,
+                ExpMonth = 4,
                 ExpYear = 20
             };
             mainViewModel = new MainViewModel(creditCardModel, service);
@@ -30,7 +32,7 @@ namespace ViewModelTests
         public void ConstructorTest()
         {
             Assert.IsNotNull(mainViewModel.CardNumber);
-            Assert.IsNotNull(mainViewModel.CreditCardID);
+            Assert.IsNotNull(mainViewModel.ExpMonth);
         }
 
         [TestMethod]
@@ -46,17 +48,35 @@ namespace ViewModelTests
         public void AddCardTest()
         {
             Assert.AreEqual(3, mainViewModel.CreditCardList.Count);
-            mainViewModel.OkMethod();
+            mainViewModel.OKCommand.Execute(null);
+            Thread.Sleep(2000);
             Assert.AreEqual(4, mainViewModel.CreditCardList.Count);
         }
 
         [TestMethod]
          public void DeleteCreditCardViewModelTest()
          {
-            Assert.AreEqual(3, mainViewModel.CreditCardList.Count);
+            AddCardTest();
+            Assert.AreEqual(4, mainViewModel.CreditCardList.Count);
             mainViewModel.SelectedCreditCard = creditCardModel;
-            mainViewModel.RemoveCreditCard();
-            Assert.AreEqual(2, mainViewModel.CreditCardList.Count);
+            mainViewModel.RemoveCard.Execute(null);
+            Thread.Sleep(2000);
+            Assert.AreEqual(3, mainViewModel.CreditCardList.Count);
          }
+
+        [TestMethod]
+        public void UpdateCardTest()
+        {
+            AddCardTest();
+            Assert.AreEqual(4, mainViewModel.CreditCardList.Count);
+            Assert.AreEqual(4, mainViewModel.CreditCardList.Last().ExpMonth);
+            creditCardModel.ExpMonth = 6;
+            mainViewModel.addMethod = false;
+            mainViewModel.SelectedCreditCard = creditCardModel;
+            mainViewModel.OKCommand.Execute(null);
+            Thread.Sleep(2000);
+            Assert.AreEqual(6, mainViewModel.CreditCardList.Last().ExpMonth);
+            Assert.AreEqual(4, mainViewModel.CreditCardList.Count);
+        }
     }
 }
