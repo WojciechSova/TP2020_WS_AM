@@ -5,7 +5,6 @@
     <UserControl.Resources />
 
     <StackPanel>
-        <!--<Button Content="Add Credit Card" Width="90" HorizontalAlignment="Center" Margin="10 10 0 10" Command="{Binding ShowAddCommand}" />-->
         <ListView Width="Auto" Height="200" ItemsSource="{Binding CreditCardList}" SelectedItem="{Binding SelectedCreditCard}">
             <ListView.View>
                 <GridView>

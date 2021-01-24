@@ -5,6 +5,12 @@ namespace Model
 {
     public class CardModel : ICreditCard
     {
+        public CardModel()
+        {
+            CardNumber = "";
+            CardType = "";
+        }
+
         public CardModel(ICreditCard card)
         {
             CreditCardID = card.CreditCardID;

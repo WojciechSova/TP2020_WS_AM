@@ -8,10 +8,11 @@ using System.Windows.Input;
 using Data;
 using Model;
 using ViewModel;
+using ViewModel.Interface;
 
 namespace ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase, IViewModel
     {
         private CardModel cardModel;
         private CardService cardService;
@@ -19,22 +20,37 @@ namespace ViewModel
         public ICommand AddCard { get; set; }
         public ICommand RemoveCard { get; set; }
         public ICommand UpdateCard { get; set; }
+        //public ICommand ShowAddDialog { get; set; }
+        private ICommand _showAddCommand;
+        public ICommand ShowAddDialog => _showAddCommand ?? (_showAddCommand = new RelayCommand(ShowAddDialogMethod));
+        public IWindowResolver WindowResolver { get; set; }
 
         private CardModel currentCard;
-
+        public MainViewModel()
+        {
+            cardModel = new CardModel();
+            cardService = new CardService();
+        }
         public MainViewModel(CardModel creditCard, CardService cardService)
         {
             AddCard = new RelayCommand(AddCreditCard);
             RemoveCard = new RelayCommand(RemoveCreditCard);
             UpdateCard = new RelayCommand(UpdateCreditCard);
+            //ShowAddDialog = new RelayCommand(ShowAddDialogMethod);
             this.cardModel = creditCard;
             this.cardService = cardService;
         }
 
-        public MainViewModel()
+        private void ShowAddDialogMethod()
         {
-            cardService = new CardService();
+
+            IOperationWindow dialog = WindowResolver.GetWindow();
+            dialog.BindViewModel(this);
+            dialog.Show();
+            CreditCardList = GetCreditCards();
         }
+
+
 
         public CardModel SelectedCreditCard
         {
@@ -54,10 +70,6 @@ namespace ViewModel
             }
 
             cardList.Clear();
-            //foreach (CardModel card in cardService.GetAllCreditCards().Select(card => new CardModel(card)))
-            //{
-            //    cardList.Add(card);
-            //}
 
             return cardList = cardService.GetAllCreditCards().ToList();
         }
@@ -122,6 +134,8 @@ namespace ViewModel
             }
         }
 
+        public Action CloseWindow { get ; set; }
+
         public void AddCreditCard()
         {
             Task.Run(() =>
@@ -132,15 +146,14 @@ namespace ViewModel
 
         public void RemoveCreditCard()
         {
-            Task.Run(() => cardService.DeleteCreditCard(cardModel.CreditCardID));
-
+            Task.Run(() => cardService.DeleteCreditCard(currentCard.CreditCardID));
         }
 
         public void UpdateCreditCard()
         {
             Task.Run(() =>
             {
-                cardService.UpdateCreditCard(cardModel.CreditCardID, cardModel);
+                cardService.UpdateCreditCard(currentCard.CreditCardID, cardModel);
             });
         }
     }

@@ -20,9 +20,9 @@ namespace View
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Card : Window
     {
-        public MainWindow()
+        public Card()
         {
             InitializeComponent();
         }
@@ -31,7 +31,8 @@ namespace View
         {
             base.OnInitialized(e);
             MainViewModel mc = (MainViewModel)DataContext;
-            mc.WindowResolver = new CreditCardDetailsResolver();
+            //ListViewModel mc = (ListViewModel)DataContext;
+            //mc.WindowResolver = new CreditCardDetailsResolver();
         }
     }
 }
