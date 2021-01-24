@@ -60,6 +60,8 @@
     <Compile Include="ListView.xaml.cs">
       <DependentUpon>ListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validators\CardNumberValidator.cs" />
+    <Compile Include="Validators\MonthValidator.cs" />
     <Page Include="ListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
