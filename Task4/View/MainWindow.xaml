@@ -8,18 +8,6 @@
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
-
-
-        <!--<ListView Width="Auto" Height="200" ItemsSource="{Binding CreditCardList}" SelectedItem="{Binding SelectedCreditCard}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Card Id" DisplayMemberBinding="{Binding CardId}" Width="125" />
-                    <GridViewColumn Header="Card Number" DisplayMemberBinding="{Binding CardNumber}" Width="125" />
-                    <GridViewColumn Header="Card Type" DisplayMemberBinding="{Binding CardType}" Width="110" />
-                </GridView>
-            </ListView.View>
-        </ListView>-->
-
     
     <Window.Resources>
         
@@ -27,7 +15,7 @@
             <v:ListView />
         </DataTemplate>
         <DataTemplate x:Key="DetailTemplate">
-            <Border Width="220" Height="Auto" Margin="20"
+            <Border Width="220" Height="auto" Margin="20"
                     BorderBrush="DarkBlue" BorderThickness="1" Padding="8">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -72,9 +60,8 @@
         </TextBlock>
         <ContentControl Content="{Binding SelectedCreditCard}" ContentTemplate="{StaticResource DetailTemplate}" Grid.Column="0" Margin="0,29,0,-118" Grid.Row="1" Grid.RowSpan="3" />
         <Button Content="Remove Card" HorizontalAlignment="Left" Margin="49,164,0,-138" Grid.Row="3" VerticalAlignment="Top" Width="75" Command="{Binding RemoveCard}"/>
-        <Button Content="Add Card" HorizontalAlignment="Left" Margin="162,165,0,-138" Grid.Row="3" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.053,0.7" Command="{Binding ShowAddDialog}"/>
-        <Button Content="Update Card" HorizontalAlignment="Right" Margin="162,165,0,-138" Grid.Row="3" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.053,0.7" Command="{Binding ShowUpdateDialog}"/>
-        <!--<Button Content="Add Credit Card" Width="90" HorizontalAlignment="Center" Margin="10 10 0 10" Command="{Binding ShowAddCommand}" />-->
+        <Button Content="Add Card" HorizontalAlignment="Left" Margin="157,164,0,-135" Grid.Row="3" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.053,0.7" Command="{Binding ShowAddDialog}"/>
+        <Button Content="Update Card" HorizontalAlignment="Right" Margin="0,164,30,-136" Grid.Row="3" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.053,0.7" Command="{Binding ShowUpdateDialog}"/>
     </Grid>
 
 </Window>
