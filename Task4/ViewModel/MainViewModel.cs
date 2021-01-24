@@ -20,9 +20,9 @@ namespace ViewModel
         public ICommand AddCard { get; set; }
         public ICommand RemoveCard { get; set; }
         public ICommand UpdateCard { get; set; }
-        //public ICommand ShowAddDialog { get; set; }
-        private ICommand _showAddCommand;
-        public ICommand ShowAddDialog => _showAddCommand ?? (_showAddCommand = new RelayCommand(ShowAddDialogMethod));
+        public ICommand ShowAddDialog { get; set; }
+        public ICommand OKCommand { get; set; }
+
         public IWindowResolver WindowResolver { get; set; }
 
         private CardModel currentCard;
@@ -30,15 +30,20 @@ namespace ViewModel
         {
             cardModel = new CardModel();
             cardService = new CardService();
+            InitCommands();
         }
         public MainViewModel(CardModel creditCard, CardService cardService)
         {
-            AddCard = new RelayCommand(AddCreditCard);
-            RemoveCard = new RelayCommand(RemoveCreditCard);
-            UpdateCard = new RelayCommand(UpdateCreditCard);
-            //ShowAddDialog = new RelayCommand(ShowAddDialogMethod);
-            this.cardModel = creditCard;
+            cardModel = creditCard;
             this.cardService = cardService;
+            InitCommands();
+        }
+
+        private void InitCommands()
+        {
+            RemoveCard = new RelayCommand(RemoveCreditCard);
+            ShowAddDialog = new RelayCommand(ShowAddDialogMethod);
+            OKCommand = new RelayCommand(OkMethod);
         }
 
         private void ShowAddDialogMethod()
@@ -50,7 +55,13 @@ namespace ViewModel
             CreditCardList = GetCreditCards();
         }
 
-
+        private void OkMethod()
+        {
+            Task.Run(() => cardService.AddCard(cardModel));
+            CreditCardList = GetCreditCards();
+            cardModel = new CardModel();
+            CloseWindow?.Invoke();
+        }
 
         public CardModel SelectedCreditCard
         {
@@ -136,25 +147,10 @@ namespace ViewModel
 
         public Action CloseWindow { get ; set; }
 
-        public void AddCreditCard()
-        {
-            Task.Run(() =>
-            {
-                cardService.AddCard(cardModel);
-            });
-        }
 
         public void RemoveCreditCard()
         {
             Task.Run(() => cardService.DeleteCreditCard(currentCard.CreditCardID));
-        }
-
-        public void UpdateCreditCard()
-        {
-            Task.Run(() =>
-            {
-                cardService.UpdateCreditCard(currentCard.CreditCardID, cardModel);
-            });
         }
     }
 }
