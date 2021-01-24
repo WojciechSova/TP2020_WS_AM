@@ -44,7 +44,7 @@ namespace Data
             cc.CardType = item.CardType;
             cc.ExpMonth = item.ExpMonth;
             cc.ExpYear = item.ExpYear;
-            cc.ModifiedDate = DateTime.Now;
+            cc.ModifiedDate = DateTime.UtcNow;
             DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
     }

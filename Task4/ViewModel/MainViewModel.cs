@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Data;
 using Model;
-using ViewModel;
 using ViewModel.Interface;
 
 namespace ViewModel
@@ -123,16 +119,6 @@ namespace ViewModel
             }
         }
 
-        public int CreditCardID
-        {
-            get => cardModel.CreditCardID;
-            set
-            {
-                cardModel.CreditCardID = value;
-                OnPropertyChanged("CreditCardID");
-            }
-        }
-
         public string CardNumber
         {
             get => cardModel.CardNumber;
@@ -178,7 +164,10 @@ namespace ViewModel
 
         public void RemoveCreditCard()
         {
-            Task.Run(() => cardService.DeleteCreditCard(currentCard.CreditCardID));
+            Task.Run(() => {
+                cardService.DeleteCreditCard(currentCard.CreditCardID);
+                CreditCardList = GetCreditCards();
+            });
         }
     }
 }
