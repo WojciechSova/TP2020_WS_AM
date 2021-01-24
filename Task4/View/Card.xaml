@@ -26,13 +26,28 @@
             <Label Content="Card Type" Grid.Row="3" Margin="10,20" />
             <Label Content="Expiration Month" Grid.Row="4" Margin="10,20" />
             <Label Content="Expiration Year" Grid.Row="5" Margin="10,20" />
-            <TextBox x:Name="txtCardNumber" Grid.Column="1" Text="{Binding CardNumber}" Margin="10,4,10,20" Width="200" Grid.Row="2" />
+            <TextBox x:Name="txtCardNumber" Grid.Column="1" Margin="10,4,10,20" Width="200" Grid.Row="2" >
+                <TextBox.Text>
+                    <Binding Path="CardNumber">
+                        <Binding.ValidationRules>
+                            <v:CardNumberValidator Min="12" Max="16"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <TextBox x:Name="txtCardType" Text="{Binding CardType}" Grid.Column="1" Grid.Row="3" Margin="10,20" Width="200" />
-            <TextBox x:Name="txtCardExpMonth" Text="{Binding ExpMonth}" Grid.Column="1" Grid.Row="4" Margin="10,20" Width="200" />
+            <TextBox x:Name="txtCardExpMonth" Grid.Column="1" Grid.Row="4" Margin="10,20" Width="200" >
+                <TextBox.Text>
+                    <Binding Path="ExpMonth">
+                        <Binding.ValidationRules>
+                            <v:MonthValidator Min="1" Max="12"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <TextBox x:Name="txtCardExpYear" Text="{Binding ExpYear}" Grid.Column="1" Grid.Row="5" Margin="10,20" Width="200" />
             <StackPanel Grid.Column="1" Grid.Row="6" Margin="10" Orientation="Horizontal">
-                <Button Content="OK" Command="{Binding OKCommand}" Width="95" Margin="10,10,10,10.2"/>
-                <Button Content="Cancel" Command="{Binding CancelCommand}" Margin="10,10,10,10.2" Width="82" />
+                <Button Content="OK" Command="{Binding OKCommand}" Width="95" Margin="50,10,10,10.2"/>
             </StackPanel>
         </Grid>
     </StackPanel>
