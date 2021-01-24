@@ -17,10 +17,12 @@ namespace ViewModel
         private CardModel cardModel;
         private CardService cardService;
         private List<CardModel> cardList;
+        private Boolean addMethod = true;
         public ICommand AddCard { get; set; }
         public ICommand RemoveCard { get; set; }
         public ICommand UpdateCard { get; set; }
         public ICommand ShowAddDialog { get; set; }
+        public ICommand ShowUpdateDialog { get; set; }
         public ICommand OKCommand { get; set; }
 
         public IWindowResolver WindowResolver { get; set; }
@@ -43,12 +45,23 @@ namespace ViewModel
         {
             RemoveCard = new RelayCommand(RemoveCreditCard);
             ShowAddDialog = new RelayCommand(ShowAddDialogMethod);
+            ShowUpdateDialog = new RelayCommand(ShowUpdateDialogMethod);
             OKCommand = new RelayCommand(OkMethod);
         }
 
         private void ShowAddDialogMethod()
         {
+            addMethod = true;
+            IOperationWindow dialog = WindowResolver.GetWindow();
+            dialog.BindViewModel(this);
+            dialog.Show();
+            CreditCardList = GetCreditCards();
+        }
 
+        private void ShowUpdateDialogMethod()
+        {
+            addMethod = false;
+            cardModel = currentCard;
             IOperationWindow dialog = WindowResolver.GetWindow();
             dialog.BindViewModel(this);
             dialog.Show();
@@ -57,7 +70,14 @@ namespace ViewModel
 
         private void OkMethod()
         {
-            Task.Run(() => cardService.AddCard(cardModel));
+            if (addMethod)
+            {
+                Task.Run(() => cardService.AddCard(cardModel));
+            }
+            else
+            {
+                Task.Run(() => cardService.UpdateCreditCard(cardModel.CreditCardID, cardModel));
+            }
             CreditCardList = GetCreditCards();
             cardModel = new CardModel();
             CloseWindow?.Invoke();
