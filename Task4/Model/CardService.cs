@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Logic;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Logic;
 
 namespace Model
 {

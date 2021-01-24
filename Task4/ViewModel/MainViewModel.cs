@@ -11,6 +11,7 @@ namespace ViewModel
     public class MainViewModel : ViewModelBase, IViewModel
     {
         private CardModel cardModel;
+        private CardModel currentCard;
         private CardService cardService;
         private List<CardModel> cardList;
         public Boolean addMethod { get; set; } = true;
@@ -21,7 +22,6 @@ namespace ViewModel
 
         public IWindowResolver WindowResolver { get; set; }
 
-        private CardModel currentCard;
         public MainViewModel()
         {
             cardModel = new CardModel();

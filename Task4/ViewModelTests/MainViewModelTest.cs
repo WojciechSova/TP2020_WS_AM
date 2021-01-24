@@ -32,6 +32,8 @@ namespace ViewModelTests
         public void ConstructorTest()
         {
             Assert.IsNotNull(mainViewModel.CardNumber);
+            Assert.IsNotNull(mainViewModel.CardType);
+            Assert.IsNotNull(mainViewModel.ExpYear);
             Assert.IsNotNull(mainViewModel.ExpMonth);
         }
 

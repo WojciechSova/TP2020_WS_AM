@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data;
 
 namespace Logic
 {
@@ -11,7 +9,7 @@ namespace Logic
     {
         private IDataContext<Data.CreditCard> DataContext { get; set; }
 
-        public Service ()
+        public Service()
         {
             DataContext = new DataContext();
         }
@@ -35,7 +33,7 @@ namespace Logic
 
         public IEnumerable<ICreditCard> GetAllCreditCards()
         {
-             return DataContext.GetAll().Select(card => new CreditCard(card));
+            return DataContext.GetAll().Select(card => new CreditCard(card));
         }
 
         public ICreditCard GetCreditCard(int id)
