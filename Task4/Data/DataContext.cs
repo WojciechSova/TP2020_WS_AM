@@ -42,10 +42,9 @@ namespace Data
             CreditCard cc = GetItem(id);
             cc.CardNumber = item.CardNumber;
             cc.CardType = item.CardType;
-            cc.CreditCardID = item.CreditCardID;
             cc.ExpMonth = item.ExpMonth;
             cc.ExpYear = item.ExpYear;
-            cc.ModifiedDate = DateTime.UtcNow;
+            cc.ModifiedDate = DateTime.Now;
             DataBaseDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
         }
     }
